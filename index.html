@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Medicine Tracker</h1>
+
+    <div class="container">
+        <form id="medicine-form">
+            <input type="text" id="name" placeholder="Medicine Name" required>
+            <input type="number" id="quantity" placeholder="Quantity" required>
+            <input type="date" id="exp-date" required>
+            
+            <button type="submit">Add Medicine</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Quantity</th>
+                    <th>Expiration Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="medicine-table-body">
+                </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
