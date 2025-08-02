@@ -15,7 +15,14 @@
             <input type="text" id="name" placeholder="Medicine Name" required>
             <input type="number" id="quantity" placeholder="Quantity" required>
             <input type="date" id="exp-date" required>
-            
+            <select id="frequency" required>
+                <option value="" disabled selected>Select Frequency</option>
+                <option value="once-a-day">Once a day</option>
+                <option value="twice-a-day">Twice a day</option>
+                <option value="three-times-a-day">Three times a day</option>
+                <option value="as-needed">As needed</option>
+            </select>
+
             <button type="submit">Add Medicine</button>
         </form>
 
@@ -25,6 +32,7 @@
                     <th>Medicine Name</th>
                     <th>Quantity</th>
                     <th>Expiration Date</th>
+                    <th>Frequency</th> 
                     <th>Actions</th>
                 </tr>
             </thead>

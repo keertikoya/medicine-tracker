@@ -18,6 +18,7 @@ function renderTable() {
             <td>${medicine.name}</td>
             <td>${medicine.quantity}</td>
             <td>${medicine.expDate}</td>
+            <td>${medicine.frequency}</td>
             <td><button class="remove-btn" onclick="removeMedicine(${index})">Remove</button></td>
         `;
         // adds the row to the body of the table
@@ -33,10 +34,11 @@ form.addEventListener('submit', (e) => {
     const name = document.getElementById('name').value;
     const quantity = document.getElementById('quantity').value;
     const expDate = document.getElementById('exp-date').value;
+    const frequency = document.getElementById('frequency').value;
     
     // create a new medicine object with the new property
-    const newMedicine = {name, quantity, expDate};
-    
+    const newMedicine = {name, quantity, expDate, frequency};
+
     // add to the data array
     medicineData.push(newMedicine);
     
