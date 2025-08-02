@@ -34,7 +34,8 @@ form.addEventListener('submit', (e) => {
     const name = document.getElementById('name').value;
     const quantity = document.getElementById('quantity').value;
     const expDate = document.getElementById('exp-date').value;
-    const frequency = document.getElementById('frequency').value;
+    const frequencySelect = document.getElementById('frequency');
+    const frequency = frequencySelect.options[frequencySelect.selectedIndex].text;
     
     // create a new medicine object with the new property
     const newMedicine = {name, quantity, expDate, frequency};
