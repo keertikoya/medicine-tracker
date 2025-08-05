@@ -1,24 +1,31 @@
-/* basic styling for the body*/
+/* basic styling for the body */
 body {
-    font-family: sans-serif;
-    background-color: #f4f4f4;
+    font-family: ui-rounded;
+    background-color: #643e1b;
     padding: 20px;
+}
+
+/* styling for the title */
+h1 {
+    color: white;
 }
 
 /* basic styling for the container and form */
 .container {
     max-width: 800px;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: #EFE5DC;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(118, 93, 76, 0.2);
 }
 
 /* selector */
 #medicine-form input, #medicine-form select, #medicine-form button {
     padding: 10px;
     margin: 5px;
+    border: 1px solid #ddc8aa; 
+    border-radius: 4px;
 }
 
 /* styling the table */
@@ -29,7 +36,7 @@ table {
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #7a6358;
 }
 
 th, td {
@@ -38,14 +45,16 @@ th, td {
 }
 
 th {
-    background-color: #eee;
+    background-color: #d9cbb8;
+    color: #4b3d34;
 }
 
 /* styling for the remove button */
 .remove-btn {
-    background-color: #ff4d4d;
+    background-color: #ec9292; 
     color: white;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
+    border-radius: 4px;
 }
