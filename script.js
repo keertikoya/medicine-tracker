@@ -2,59 +2,83 @@
 const form = document.getElementById('medicine-form');
 const tableBody = document.getElementById('medicine-table-body');
 
-// initialize a data array
-let medicineData = [];
+// API endpoint URL
+const apiUrl = 'http://127.0.0.1:5000/api/medicines';
 
-// to render the table
-function renderTable() {
-    // clear the current table body
-    tableBody.innerHTML = '';
-    
-    // loop through the medicineData array
-    medicineData.forEach((medicine, index) => {
-        // create a new table row
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${medicine.name}</td>
-            <td>${medicine.quantity}</td>
-            <td>${medicine.expDate}</td>
-            <td>${medicine.frequency}</td>
-            <td><button class="remove-btn" onclick="removeMedicine(${index})">Remove</button></td>
-        `;
-        // adds the row to the body of the table
-        tableBody.appendChild(row);
-    });
+// Function to fetch data from the backend and render the table
+async function fetchAndRenderTable() {
+    try {
+        const response = await fetch(apiUrl);
+        const medicineData = await response.json();
+        
+        // Clear the current table body
+        tableBody.innerHTML = '';
+        
+        // Loop through the fetched data and create table rows
+        medicineData.forEach(medicine => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${medicine.name}</td>
+                <td>${medicine.quantity}</td>
+                <td>${medicine.exp_date}</td>
+                <td>${medicine.frequency}</td>
+                <td><button class="remove-btn" data-id="${medicine.id}">Remove</button></td>
+            `;
+            tableBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 }
 
-// form submission
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
 
-    // get values from inputs
+// Function to handle form submission
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Get values from inputs
     const name = document.getElementById('name').value;
     const quantity = document.getElementById('quantity').value;
     const expDate = document.getElementById('exp-date').value;
-    const frequencySelect = document.getElementById('frequency');
-    const frequency = frequencySelect.options[frequencySelect.selectedIndex].text;
+    const frequency = document.getElementById('frequency').value;
     
-    // create a new medicine object with the new property
-    const newMedicine = {name, quantity, expDate, frequency};
-
-    // add to the data array
-    medicineData.push(newMedicine);
+    const newMedicine = { name, quantity, expDate, frequency };
     
-    // re-render the table
-    renderTable();
-    
-    // clear the form
-    form.reset();
+    try {
+        await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newMedicine)
+        });
+        
+        // Re-fetch data after successful submission
+        fetchAndRenderTable();
+        
+        // Clear the form
+        form.reset();
+    } catch (error) {
+        console.error('Error adding medicine:', error);
+    }
 });
 
-// remove a medicine
-function removeMedicine(index) {
-    medicineData.splice(index, 1);
-    renderTable();
-}
+// Function to handle deleting a medicine
+tableBody.addEventListener('click', async (e) => {
+    if (e.target.classList.contains('remove-btn')) {
+        const id = e.target.getAttribute('data-id');
+        try {
+            await fetch(`${apiUrl}/${id}`, {
+                method: 'DELETE'
+            });
+            
+            // Re-fetch data after successful deletion
+            fetchAndRenderTable();
+        } catch (error) {
+            console.error('Error deleting medicine:', error);
+        }
+    }
+});
 
 // initial render
 renderTable();
