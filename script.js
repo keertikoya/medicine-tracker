@@ -5,18 +5,33 @@ const tableBody = document.getElementById('medicine-table-body');
 // API endpoint URL
 const apiUrl = 'http://127.0.0.1:5000/api/medicines';
 
-// Function to fetch data from the backend and render the table
+// check if a date is within a week from today
+function isExpiringSoon(expDateString) {
+    const today = new Date();
+    const expirationDate = new Date(expDateString);
+    const oneWeek = 7 * 24 * 60 * 60 * 1000; // milliseconds in a week
+    const difference = expirationDate.getTime() - today.getTime();
+    return difference < oneWeek && difference > 0;
+}
+
+// ffetch data from the backend and render the table
 async function fetchAndRenderTable() {
     try {
         const response = await fetch(apiUrl);
         const medicineData = await response.json();
         
-        // Clear the current table body
+        // clear the current table body
         tableBody.innerHTML = '';
         
-        // Loop through the fetched data and create table rows
+        // loop through the fetched data and create table rows
         medicineData.forEach(medicine => {
             const row = document.createElement('tr');
+            
+            // add a class to the row if the medicine is expiring soon
+            if (isExpiringSoon(medicine.exp_date)) {
+                row.classList.add('expiring-soon');
+            }
+            
             row.innerHTML = `
                 <td>${medicine.name}</td>
                 <td>${medicine.quantity}</td>
@@ -32,11 +47,11 @@ async function fetchAndRenderTable() {
 }
 
 
-// Function to handle form submission
+// handle form submission
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Get values from inputs
+    // get values from inputs
     const name = document.getElementById('name').value;
     const quantity = document.getElementById('quantity').value;
     const expDate = document.getElementById('exp-date').value;
@@ -53,17 +68,17 @@ form.addEventListener('submit', async (e) => {
             body: JSON.stringify(newMedicine)
         });
         
-        // Re-fetch data after successful submission
+        // re-fetch data after successful submission
         fetchAndRenderTable();
         
-        // Clear the form
+        // clear the form
         form.reset();
     } catch (error) {
         console.error('Error adding medicine:', error);
     }
 });
 
-// Function to handle deleting a medicine
+// handle deleting a medicine
 tableBody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('remove-btn')) {
         const id = e.target.getAttribute('data-id');
@@ -72,7 +87,7 @@ tableBody.addEventListener('click', async (e) => {
                 method: 'DELETE'
             });
             
-            // Re-fetch data after successful deletion
+            // re-fetch data after successful deletion
             fetchAndRenderTable();
         } catch (error) {
             console.error('Error deleting medicine:', error);
@@ -80,5 +95,4 @@ tableBody.addEventListener('click', async (e) => {
     }
 });
 
-// initial render
-renderTable();
+fetchAndRenderTable();

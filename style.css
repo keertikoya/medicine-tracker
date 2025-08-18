@@ -1,72 +1,76 @@
-/* basic styling for the body*/
+/* styling for the body */
 body {
-    font-family: "Unna", sans-serif;
-    background-color: #643e1b;
-    font-weight: 300;
+    font-family: 'Comfortaa', sans-serif;
+    background-color: #f7f1e3;
     padding: 20px;
 }
 
+/* styling for the h1 header */
 h1 {
     color: white;
-    text-align: center;
-    padding: 20px;
 }
 
-/* basic styling for the container and form */
+/* styling for the container and form */
 .container {
     max-width: 800px;
     margin: 0 auto;
-    font-family: "Unna", sans-serif;
-    background-color: #EFE5DC;
+    background-color: #eae7dc;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgb(255, 255, 255);
+    box-shadow: 0 2px 4px rgba(118, 93, 76, 0.2);
 }
 
 /* selector */
 #medicine-form input, #medicine-form select, #medicine-form button {
     padding: 10px;
-    font-family: "Unna", sans-serif;
     margin: 5px;
+    border: 1px solid #c2b29c; 
+    border-radius: 4px;
 }
 
-/* "Add Medicine" button styling */
+/* Add Medicine button styling */
 #medicine-form button[type="submit"] {
     background-color: #7a6358;
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 7px;
+    border-radius: 4px;
 }
 
 /* styling the table */
 table {
     width: 100%;
-    font-family: "Unna", sans-serif;
-    border-collapse: spacing;
-    border-spacing: 8px 10px;
+    border-collapse: separate;
+    border-spacing: 0 10px; 
     margin-top: 20px;
-    border-radius: 30px;
 }
 
+table, th, td {
+    border: 1px solid #7a6358;
+}
 
 th, td {
     padding: 12px;
     text-align: left;
-    border-radius: 10px;
 }
 
 th {
-    background-color: #e7c195;
+    background-color: #c2b29c;
+    color: #4b3d34;
 }
 
 /* styling for the remove button */
 .remove-btn {
-    font-family: "Unna", sans-serif;
-    background-color: #f55f5f9e;
+    background-color: #a52a2a; 
     color: white;
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    border-radius: 7px;
+    border-radius: 4px;
+}
+
+/* rule for expiring medicines */
+.expiring-soon {
+    background-color: #fcebeb;
+    border-color: #ff9999;
 }
