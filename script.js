@@ -1,6 +1,7 @@
-// get elements
+// get DOM elements
 const form = document.getElementById('medicine-form');
 const tableBody = document.getElementById('medicine-table-body');
+const searchInput = document.getElementById('search-input'); // Get a reference to the new search bar
 
 // API endpoint URL
 const apiUrl = 'http://127.0.0.1:5000/api/medicines';
@@ -14,44 +15,61 @@ function isExpiringSoon(expDateString) {
     return difference < oneWeek && difference > 0;
 }
 
-// ffetch data from the backend and render the table
-async function fetchAndRenderTable() {
+// render the table with filtered data
+function renderTable(medicineData) {
+    tableBody.innerHTML = '';
+    
+    medicineData.forEach(medicine => {
+        const row = document.createElement('tr');
+        
+        if (isExpiringSoon(medicine.exp_date)) {
+            row.classList.add('expiring-soon');
+        }
+
+        row.innerHTML = `
+            <td>${medicine.name}</td>
+            <td>${medicine.quantity}</td>
+            <td>${medicine.exp_date}</td>
+            <td>${medicine.frequency}</td>
+            <td><button class="remove-btn" data-id="${medicine.id}">Remove</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// fetch data from the backend
+async function fetchMedicines() {
     try {
         const response = await fetch(apiUrl);
         const medicineData = await response.json();
-        
-        // clear the current table body
-        tableBody.innerHTML = '';
-        
-        // loop through the fetched data and create table rows
-        medicineData.forEach(medicine => {
-            const row = document.createElement('tr');
-            
-            // add a class to the row if the medicine is expiring soon
-            if (isExpiringSoon(medicine.exp_date)) {
-                row.classList.add('expiring-soon');
-            }
-            
-            row.innerHTML = `
-                <td>${medicine.name}</td>
-                <td>${medicine.quantity}</td>
-                <td>${medicine.exp_date}</td>
-                <td>${medicine.frequency}</td>
-                <td><button class="remove-btn" data-id="${medicine.id}">Remove</button></td>
-            `;
-            tableBody.appendChild(row);
-        });
+        return medicineData;
     } catch (error) {
         console.error('Error fetching data:', error);
+        return [];
     }
 }
 
+// initial fetch and render
+let allMedicines = [];
+async function initializeApp() {
+    allMedicines = await fetchMedicines();
+    renderTable(allMedicines);
+}
+initializeApp();
 
-// handle form submission
+// event listener for the search input
+searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const filteredMedicines = allMedicines.filter(medicine => {
+        return medicine.name.toLowerCase().includes(searchTerm);
+    });
+    renderTable(filteredMedicines);
+});
+
+// function to handle form submission
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // get values from inputs
     const name = document.getElementById('name').value;
     const quantity = document.getElementById('quantity').value;
     const expDate = document.getElementById('exp-date').value;
@@ -68,10 +86,9 @@ form.addEventListener('submit', async (e) => {
             body: JSON.stringify(newMedicine)
         });
         
-        // re-fetch data after successful submission
-        fetchAndRenderTable();
-        
-        // clear the form
+        // re-fetch all data and update the display
+        allMedicines = await fetchMedicines();
+        renderTable(allMedicines);
         form.reset();
     } catch (error) {
         console.error('Error adding medicine:', error);
@@ -87,12 +104,11 @@ tableBody.addEventListener('click', async (e) => {
                 method: 'DELETE'
             });
             
-            // re-fetch data after successful deletion
-            fetchAndRenderTable();
+            // re-fetch all data and update the display
+            allMedicines = await fetchMedicines();
+            renderTable(allMedicines);
         } catch (error) {
             console.error('Error deleting medicine:', error);
         }
     }
 });
-
-fetchAndRenderTable();
