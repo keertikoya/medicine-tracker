@@ -1,25 +1,28 @@
 // get DOM elements
 const form = document.getElementById('medicine-form');
 const tableBody = document.getElementById('medicine-table-body');
-const searchInput = document.getElementById('search-input'); // Get a reference to the new search bar
+const searchInput = document.getElementById('search-input');
 
 // API endpoint URL
 const apiUrl = 'http://127.0.0.1:5000/api/medicines';
+
+// hold complete list of medicines
+let allMedicines = [];
 
 // check if a date is within a week from today
 function isExpiringSoon(expDateString) {
     const today = new Date();
     const expirationDate = new Date(expDateString);
-    const oneWeek = 7 * 24 * 60 * 60 * 1000; // milliseconds in a week
+    const oneWeek = 7 * 24 * 60 * 60 * 1000;
     const difference = expirationDate.getTime() - today.getTime();
     return difference < oneWeek && difference > 0;
 }
 
-// render the table with filtered data
-function renderTable(medicineData) {
+// render the table with the provided data
+function renderTable(medicines) {
     tableBody.innerHTML = '';
     
-    medicineData.forEach(medicine => {
+    medicines.forEach(medicine => {
         const row = document.createElement('tr');
         
         if (isExpiringSoon(medicine.exp_date)) {
@@ -49,8 +52,7 @@ async function fetchMedicines() {
     }
 }
 
-// initial fetch and render
-let allMedicines = [];
+// initialize the app by fetching all data and rendering the table
 async function initializeApp() {
     allMedicines = await fetchMedicines();
     renderTable(allMedicines);
@@ -60,13 +62,17 @@ initializeApp();
 // event listener for the search input
 searchInput.addEventListener('input', (e) => {
     const searchTerm = e.target.value.toLowerCase();
+    
+    // filter the complete list of medicines based on the search term
     const filteredMedicines = allMedicines.filter(medicine => {
         return medicine.name.toLowerCase().includes(searchTerm);
     });
+    
+    // render the table with only the filtered results
     renderTable(filteredMedicines);
 });
 
-// function to handle form submission
+// handle form submission
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
