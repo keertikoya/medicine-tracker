@@ -26,24 +26,43 @@ h1 {
 /* input and button styling */
 #medicine-form {
     display: flex;
-    flex-wrap: nowrap; 
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     gap: 10px;
     margin-bottom: 30px;
+    align-items: stretch; 
+}
+
+/* group inputs together */
+.form-inputs {
+    display: flex;
+    flex-wrap: nowrap; 
+    gap: 10px;
 }
 
 #medicine-form input,
-#medicine-form select,
-#medicine-form button {
+#medicine-form select {
     flex-grow: 1;
     padding: 12px;
     border: 1px solid #dcd3cb;
     border-radius: 8px;
     font-size: 16px;
     color: #4b3e39;
-    font-family: 'Comfortaa', sans-serif; 
-    flex-shrink: 0;
+    font-family: 'Comfortaa', sans-serif;
+    max-width: none;
+}
+
+#medicine-form button[type="submit"] {
+    width: 100%;
+    padding: 12px 24px;
+    background-color: #8b6d5c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Comfortaa', sans-serif;
 }
 
 #medicine-form button[type="submit"] {
