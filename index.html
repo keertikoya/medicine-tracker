@@ -4,46 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medicine Tracker</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <h1>Medicine Tracker</h1>
-
     <div class="container">
+        <h1>Medicine Tracker</h1>
+
+        <!-- adding a new medicine -->
         <form id="medicine-form">
-            <input type="text" id="name" placeholder="Medicine Name" required>
-            <input type="number" id="quantity" placeholder="Quantity" required>
-            <input type="date" id="exp-date" required>
-            <select id="frequency" required>
-                <option value="" disabled selected>Select Frequency</option>
-                <option value="once-a-day">Once a day</option>
-                <option value="twice-a-day">Twice a day</option>
-                <option value="three-times-a-day">Three times a day</option>
-                <option value="as-needed">As needed</option>
-            </select>
+            <div class="form-inputs">
+                <input type="text" id="name" placeholder="Medicine Name" required>
+                <input type="number" id="quantity" placeholder="Quantity" required>
+                <input type="date" id="exp-date" required>
+                <select id="frequency" required>
+                    <option value="" disabled selected>Select Frequency</option>
+                    <option value="once-a-day">Once a day</option>
+                    <option value="twice-a-day">Twice a day</option>
+                    <option value="three-times-a-day">Three times a day</option>
+                    <option value="as-needed">As needed</option>
+                </select>
+            </div>
             <button type="submit">Add Medicine</button>
         </form>
 
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search for a medication...">
+        <!-- search and filter -->
+        <div class="controls-container">
+            <input type="text" id="search-input" placeholder="Search by Name...">
+            <div class="filter-controls">
+                <select id="filter-type">
+                    <option value="quantity">Quantity &lt;=</option>
+                    <option value="expiration-date">Expiring On or Before</option>
+                </select>
+                <input type="text" id="filter-value" placeholder="Value">
+                <button id="filter-btn">Apply Filter</button>
+            </div>
         </div>
 
-        <table>
+        <!-- display medicine inventory -->
+        <table id="medicine-table">
             <thead>
                 <tr>
-                    <th>Medicine Name</th>
+                    <th>Name</th>
                     <th>Quantity</th>
                     <th>Expiration Date</th>
-                    <th>Frequency</th> 
+                    <th>Frequency</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="medicine-table-body">
-                </tbody>
+            <tbody>
+                <!-- table rows here -->
+            </tbody>
         </table>
     </div>
 

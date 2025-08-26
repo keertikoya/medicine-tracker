@@ -78,6 +78,54 @@ h1 {
     background-color: #725a4d;
 }
 
+/* search and filter styling */
+.controls-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+#search-input {
+    flex-grow: 1;
+    min-width: 150px;
+    padding: 12px;
+    border: 1px solid #dcd3cb;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Comfortaa', sans-serif;
+    color: #4b3e39;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#filter-type,
+#filter-value {
+    padding: 12px;
+    border: 1px solid #dcd3cb;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Comfortaa', sans-serif;
+    color: #4b3e39;
+}
+
+#filter-btn {
+    padding: 12px 24px;
+    background-color: #8b6d5c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
 /* table styling */
 table {
     width: 100%;
