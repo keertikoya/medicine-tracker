@@ -163,6 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('keyup', applyFiltersAndSearch);
     filterBtn.addEventListener('click', applyFiltersAndSearch);
 
+    // change the input type based on the filter type
+    filterTypeSelect.addEventListener('change', (e) => {
+        if (e.target.value === 'expiration-date') {
+            filterValueInput.type = 'date';
+        } else {
+            filterValueInput.type = 'text';
+        }
+    });
+
     // Initial data fetch
     fetchMedicines();
 });
