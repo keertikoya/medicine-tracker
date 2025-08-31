@@ -61,5 +61,10 @@
     </div>
 
     <script src="script.js"></script>
-</body>
+    <script>
+        // get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+        // set the min attribute of the expiration date input to today's date
+        document.getElementById('exp-date').setAttribute('min', today);
+    </script></body>
 </html>
