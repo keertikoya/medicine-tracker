@@ -75,5 +75,21 @@ def delete_medicine(id):
     # return a success message and HTTP status code 200 (OK)
     return jsonify({'message': 'Medicine deleted successfully'}), 200
 
+# endpoint to decrease a medicine's quantity
+@app.route('/api/medicines/<int:id>', methods=['PUT'])
+def take_dose(id):
+    conn = get_db_connection()
+    current_quantity = conn.execute('SELECT quantity FROM medicines WHERE id = ?', (id,)).fetchone()['quantity']
+
+    if current_quantity > 0:
+        new_quantity = current_quantity - 1
+        conn.execute('UPDATE medicines SET quantity = ? WHERE id = ?', (new_quantity, id))
+        conn.commit()
+        conn.close()
+        return jsonify({'message': 'Dose taken successfully', 'new_quantity': new_quantity}), 200
+    else:
+        conn.close()
+        return jsonify({'error': 'Out of stock'}), 400
+
 if __name__ == '__main__':
     app.run(debug=True)
