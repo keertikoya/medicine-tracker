@@ -25,7 +25,8 @@ def create_table():
             name TEXT NOT NULL,
             quantity INTEGER NOT NULL,
             exp_date TEXT NOT NULL,
-            frequency TEXT NOT NULL
+            frequency TEXT NOT NULL,
+            notes TEXT
         )
     ''')
     conn.commit()
@@ -54,11 +55,12 @@ def add_medicine():
     quantity = data['quantity']
     exp_date = data['expDate']
     frequency = data['frequency']
+    notes = data.get('notes', '')
 
     conn = get_db_connection()
     # execute a SQL INSERT statement with the received data
-    conn.execute('INSERT INTO medicines (name, quantity, exp_date, frequency) VALUES (?, ?, ?, ?)',
-                 (name, quantity, exp_date, frequency))
+    conn.execute('INSERT INTO medicines (name, quantity, exp_date, frequency, notes) VALUES (?, ?, ?, ?, ?)',
+                (name, quantity, exp_date, frequency, notes))
     conn.commit()
     conn.close()
     # return a success message and HTTP status code 201 (Created)
@@ -74,22 +76,6 @@ def delete_medicine(id):
     conn.close()
     # return a success message and HTTP status code 200 (OK)
     return jsonify({'message': 'Medicine deleted successfully'}), 200
-
-# endpoint to decrease a medicine's quantity
-@app.route('/api/medicines/<int:id>', methods=['PUT'])
-def take_dose(id):
-    conn = get_db_connection()
-    current_quantity = conn.execute('SELECT quantity FROM medicines WHERE id = ?', (id,)).fetchone()['quantity']
-
-    if current_quantity > 0:
-        new_quantity = current_quantity - 1
-        conn.execute('UPDATE medicines SET quantity = ? WHERE id = ?', (new_quantity, id))
-        conn.commit()
-        conn.close()
-        return jsonify({'message': 'Dose taken successfully', 'new_quantity': new_quantity}), 200
-    else:
-        conn.close()
-        return jsonify({'error': 'Out of stock'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

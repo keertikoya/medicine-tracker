@@ -37,6 +37,7 @@ function renderTable(medicines) {
             <td>${medicine.quantity}</td>
             <td>${medicine.exp_date}</td>
             <td>${medicine.frequency}</td>
+            <td>${medicine.notes}</td>
             <td>
                 <button class="take-dose-btn" data-id="${medicine.id}">Take Dose</button>
                 <button class="remove-btn" data-id="${medicine.id}">Remove</button>
@@ -110,7 +111,6 @@ filterBtn.addEventListener('click', () => {
 filterTypeInput.addEventListener('change', () => {
     if (filterTypeInput.value === 'expiration-date') {
         filterValueInput.type = 'date';
-        // set min attribute to today's date
         const today = new Date().toISOString().split('T')[0];
         filterValueInput.setAttribute('min', today);
     } else {
@@ -126,8 +126,9 @@ form.addEventListener('submit', async (e) => {
     const quantity = document.getElementById('quantity').value;
     const expDate = document.getElementById('exp-date').value;
     const frequency = document.getElementById('frequency').value;
+    const notes = document.getElementById('notes').value;
     
-    const newMedicine = { name, quantity, expDate, frequency };
+    const newMedicine = {name, quantity, expDate, frequency, notes};
     
     try {
         await fetch(apiUrl, {
@@ -142,17 +143,16 @@ form.addEventListener('submit', async (e) => {
         renderTable(allMedicines);
         form.reset();
     } catch (error) {
-error_message = `Error adding medicine: ${error}`;
-console.log(error_message);
+        error_message = `Error adding medicine: ${error}`;
+        console.log(error_message);
     }
 });
 
+
 // event listener for the table to handle dynamic buttons
 tableBody.addEventListener('click', async (e) => {
-    const target = e.target;
-    const id = target.getAttribute('data-id');
-
-    if (target.classList.contains('remove-btn')) {
+    if (e.target.classList.contains('remove-btn')) {
+        const id = e.target.getAttribute('data-id');
         try {
             await fetch(`${apiUrl}/${id}`, {
                 method: 'DELETE'
@@ -161,21 +161,6 @@ tableBody.addEventListener('click', async (e) => {
             renderTable(allMedicines);
         } catch (error) {
             console.log(`Error deleting medicine: ${error}`);
-        }
-    } else if (target.classList.contains('take-dose-btn')) {
-        try {
-            const medicineToUpdate = allMedicines.find(med => med.id == id);
-            if (medicineToUpdate && medicineToUpdate.quantity > 0) {
-                await fetch(`${apiUrl}/${id}`, {
-                    method: 'PUT'
-                });
-                allMedicines = await fetchMedicines();
-                renderTable(allMedicines);
-            } else {
-                console.log("Cannot take dose: Out of stock or medicine not found.");
-            }
-        } catch (error) {
-            console.log(`Error taking dose: ${error}`);
         }
     }
 });
