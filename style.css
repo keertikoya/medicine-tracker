@@ -40,7 +40,8 @@ h1 {
 }
 
 #medicine-form input,
-#medicine-form select {
+#medicine-form select,
+#medicine-form textarea {
     flex-grow: 1;
     padding: 12px;
     border: 1px solid #dcd3cb;
