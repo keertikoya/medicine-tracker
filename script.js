@@ -47,6 +47,15 @@ function renderTable(medicines) {
     });
 }
 
+// show a loading message in the table
+function showLoadingState() {
+    tableBody.innerHTML = `
+        <tr>
+            <td colspan="6" style="text-align: center; font-style: italic;">Loading...</td>
+        </tr>
+    `;
+}
+
 // fetch data from the backend
 async function fetchMedicines() {
     try {
