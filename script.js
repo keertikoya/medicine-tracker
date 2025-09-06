@@ -25,6 +25,16 @@ function isExpiringSoon(expDateString) {
 function renderTable(medicines) {
     tableBody.innerHTML = '';
     
+    // if no medicines are found, display a message
+    if (medicines.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align: center; font-style: italic; color: #888;">No medications found. Add a new medication above or adjust your search.</td>
+            </tr>
+        `;
+        return;
+    }
+
     medicines.forEach(medicine => {
         const row = document.createElement('tr');
         
