@@ -172,14 +172,19 @@ form.addEventListener('submit', async (e) => {
 tableBody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('remove-btn')) {
         const id = e.target.getAttribute('data-id');
-        try {
-            await fetch(`${apiUrl}/${id}`, {
-                method: 'DELETE'
-            });
-            allMedicines = await fetchMedicines();
-            renderTable(allMedicines);
-        } catch (error) {
-            console.log(`Error deleting medicine: ${error}`);
+
+        // added confirmation dialog before deletion
+        if (confirm('Are you sure you want to remove this medication?')) {
+            try {
+                showLoadingState();
+                await fetch(`${apiUrl}/${id}`, {
+                    method: 'DELETE'
+                });
+                allMedicines = await fetchMedicines();
+                renderTable(allMedicines);
+            } catch (error) {
+                console.log(`Error deleting medicine: ${error}`);
+            }
         }
     }
 });
