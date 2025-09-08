@@ -48,16 +48,27 @@
         <table id="medicine-table">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Medicine Name</th>
                     <th>Quantity</th>
                     <th>Expiration Date</th>
-                    <th>Frequency</th>
-                    <th>Actions</th>
+                    <th>Frequency</th> 
                     <th>Notes</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- table rows here -->
+            <tbody id="medicine-table-body">
+                <!-- Data will be populated here by JavaScript -->
+                <tr>
+                    <td>Example Medicine</td>
+                    <td>10</td>
+                    <td>2025-12-31</td>
+                    <td>once-a-day</td>
+                    <td>Take with food</td>
+                    <td>
+                        <button class="edit-btn" data-id="1">Edit</button>
+                        <button class="remove-btn" data-id="1">Remove</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

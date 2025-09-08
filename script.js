@@ -49,7 +49,7 @@ function renderTable(medicines) {
             <td>${medicine.frequency}</td>
             <td>${medicine.notes}</td>
             <td>
-                <button class="take-dose-btn" data-id="${medicine.id}">Take Dose</button>
+                <button class="edit-btn" data-id="${medicine.id}">Edit</button>
                 <button class="remove-btn" data-id="${medicine.id}">Remove</button>
             </td>
         `;
@@ -150,19 +150,36 @@ form.addEventListener('submit', async (e) => {
     const newMedicine = {name, quantity, expDate, frequency, notes};
     
     try {
-        await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newMedicine)
-        });
-        
+        showLoadingState();
+
+        if (isEditing) {
+            // Send a PUT request to update the existing medication
+            await fetch(`${apiUrl}/${currentEditId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newMedicine)
+            });
+            isEditing = false;
+            currentEditId = null;
+            document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'Add Medicine';
+        } else {
+            // send a POST request to add a new medication
+            await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newMedicine)
+            });
+        }
+
         allMedicines = await fetchMedicines();
         renderTable(allMedicines);
         form.reset();
     } catch (error) {
-        error_message = `Error adding medicine: ${error}`;
+        error_message = `Error processing medication: ${error}`;
         console.log(error_message);
     }
 });
@@ -186,5 +203,20 @@ tableBody.addEventListener('click', async (e) => {
                 console.log(`Error deleting medicine: ${error}`);
             }
         }
+    } else if (e.target.classList.contains('edit-btn')) {
+        const id = e.target.getAttribute('data-id');
+        const medicineToEdit = allMedicines.find(m => m.id == id);
+
+        // Pre-populate the form for editing
+        document.getElementById('name').value = medicineToEdit.name;
+        document.getElementById('quantity').value = medicineToEdit.quantity;
+        document.getElementById('exp-date').value = medicineToEdit.exp_date;
+        document.getElementById('frequency').value = medicineToEdit.frequency;
+        document.getElementById('notes').value = medicineToEdit.notes;
+
+        // Change the button text and set the editing state
+        document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'Update Medicine';
+        isEditing = true;
+        currentEditId = id;
     }
 });

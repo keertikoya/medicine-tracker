@@ -77,5 +77,22 @@ def delete_medicine(id):
     # return a success message and HTTP status code 200 (OK)
     return jsonify({'message': 'Medicine deleted successfully'}), 200
 
+# endpoint for updating a medication
+@app.route('/api/medicines/<int:id>', methods=['PUT'])
+def update_medicine(id):
+    data = request.get_json()
+    name = data['name']
+    quantity = data['quantity']
+    exp_date = data['expDate']
+    frequency = data['frequency']
+    notes = data.get('notes', '')
+
+    conn = get_db_connection()
+    conn.execute('UPDATE medicines SET name = ?, quantity = ?, exp_date = ?, frequency = ?, notes = ? WHERE id = ?',
+                 (name, quantity, exp_date, frequency, notes, id))
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'Medicine updated successfully'}), 200
+
 if __name__ == '__main__':
     app.run(debug=True)
