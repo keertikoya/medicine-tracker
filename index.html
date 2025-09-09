@@ -16,8 +16,8 @@
         <!-- adding a new medicine -->
         <form id="medicine-form">
             <div class="form-inputs">
-                <input type="text" id="name" placeholder="Medicine Name" required>
-                <input type="number" id="quantity" placeholder="Quantity" required>
+                <input type="text" id="name" placeholder="Medicine Name *" required>
+                <input type="number" id="quantity" placeholder="Quantity *" required>
                 <input type="date" id="exp-date" required>
                 <select id="frequency" required>
                     <option value="" disabled selected>Select Frequency</option>
@@ -30,6 +30,9 @@
             </div>
             <button type="submit">Add Medicine</button>
         </form>
+
+        <!-- note for required fields -->
+        <p class="form-note">* Indicates a required field</p>
 
         <!-- search and filter -->
         <div class="controls-container">
