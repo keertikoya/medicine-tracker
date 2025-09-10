@@ -68,8 +68,10 @@ function showLoadingState() {
 
 // fetch data from the backend
 async function fetchMedicines() {
+    showLoadingState();
     try {
-        const response = await fetch(apiUrl);
+        // add a timestamp to the URL to bust the browser cache
+        const response = await fetch(`${apiUrl}?_t=${new Date().getTime()}`);
         const medicineData = await response.json();
         return medicineData;
     } catch (error) {
@@ -147,13 +149,13 @@ form.addEventListener('submit', async (e) => {
     const frequency = document.getElementById('frequency').value;
     const notes = document.getElementById('notes').value;
     
-    const newMedicine = {name, quantity, expDate, frequency, notes};
+    const newMedicine = { name, quantity, expDate, frequency, notes };
     
     try {
         showLoadingState();
 
         if (isEditing) {
-            // Send a PUT request to update the existing medication
+            // send a PUT request to update the existing medication
             await fetch(`${apiUrl}/${currentEditId}`, {
                 method: 'PUT',
                 headers: {
@@ -164,6 +166,9 @@ form.addEventListener('submit', async (e) => {
             isEditing = false;
             currentEditId = null;
             document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'Add Medicine';
+            // refresh the table after an edit
+            allMedicines = await fetchMedicines(); 
+            renderTable(allMedicines);
         } else {
             // send a POST request to add a new medication
             await fetch(apiUrl, {
@@ -173,10 +178,11 @@ form.addEventListener('submit', async (e) => {
                 },
                 body: JSON.stringify(newMedicine)
             });
+            // refresh after a new entry
+            allMedicines = await fetchMedicines();
+            renderTable(allMedicines);
         }
 
-        allMedicines = await fetchMedicines();
-        renderTable(allMedicines);
         form.reset();
     } catch (error) {
         error_message = `Error processing medication: ${error}`;
