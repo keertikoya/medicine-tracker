@@ -12,6 +12,10 @@ const apiUrl = 'http://127.0.0.1:5000/api/medicines';
 // hold the complete list of medicines
 let allMedicines = [];
 
+// variables to track the editing state
+let isEditing = false;
+let currentEditId = null;
+
 // check if a date is within a week from today
 function isExpiringSoon(expDateString) {
     const today = new Date();
@@ -166,9 +170,6 @@ form.addEventListener('submit', async (e) => {
             isEditing = false;
             currentEditId = null;
             document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'Add Medicine';
-            // refresh the table after an edit
-            allMedicines = await fetchMedicines(); 
-            renderTable(allMedicines);
         } else {
             // send a POST request to add a new medication
             await fetch(apiUrl, {
@@ -178,11 +179,11 @@ form.addEventListener('submit', async (e) => {
                 },
                 body: JSON.stringify(newMedicine)
             });
-            // refresh after a new entry
-            allMedicines = await fetchMedicines();
-            renderTable(allMedicines);
         }
 
+        // fetch updated data and re-render the table after any form submission
+        allMedicines = await fetchMedicines();
+        renderTable(allMedicines);
         form.reset();
     } catch (error) {
         error_message = `Error processing medication: ${error}`;
@@ -190,13 +191,11 @@ form.addEventListener('submit', async (e) => {
     }
 });
 
-
 // event listener for the table to handle dynamic buttons
 tableBody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('remove-btn')) {
         const id = e.target.getAttribute('data-id');
 
-        // added confirmation dialog before deletion
         if (confirm('Are you sure you want to remove this medication?')) {
             try {
                 showLoadingState();
@@ -213,14 +212,14 @@ tableBody.addEventListener('click', async (e) => {
         const id = e.target.getAttribute('data-id');
         const medicineToEdit = allMedicines.find(m => m.id == id);
 
-        // Pre-populate the form for editing
+        // pre-populate the form for editing
         document.getElementById('name').value = medicineToEdit.name;
         document.getElementById('quantity').value = medicineToEdit.quantity;
         document.getElementById('exp-date').value = medicineToEdit.exp_date;
         document.getElementById('frequency').value = medicineToEdit.frequency;
         document.getElementById('notes').value = medicineToEdit.notes;
 
-        // Change the button text and set the editing state
+        // change the button text and set the editing state
         document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'Update Medicine';
         isEditing = true;
         currentEditId = id;

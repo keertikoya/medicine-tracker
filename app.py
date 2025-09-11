@@ -57,14 +57,17 @@ def add_medicine():
     frequency = data['frequency']
     notes = data.get('notes', '')
 
-    conn = get_db_connection()
-    # execute a SQL INSERT statement with the received data
-    conn.execute('INSERT INTO medicines (name, quantity, exp_date, frequency, notes) VALUES (?, ?, ?, ?, ?)',
-                (name, quantity, exp_date, frequency, notes))
-    conn.commit()
-    conn.close()
-    # return a success message and HTTP status code 201 (Created)
-    return jsonify({'message': 'Medicine added successfully'}), 201
+    try:
+        conn = get_db_connection()
+        # execute a SQL INSERT statement with the received data
+        conn.execute('INSERT INTO medicines (name, quantity, exp_date, frequency, notes) VALUES (?, ?, ?, ?, ?)',
+                    (name, quantity, exp_date, frequency, notes))
+        conn.commit()
+        conn.close()
+        # return a success message and HTTP status code 201 (Created)
+        return jsonify({'message': 'Medicine added successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # API endpoint to delete a medicine by its unique ID
 @app.route('/api/medicines/<int:id>', methods=['DELETE'])
