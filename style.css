@@ -153,15 +153,32 @@ th {
     letter-spacing: 0.5px;
 }
 
-/* remove button styling */
+/* Combined action button styling */
+.action-btn,
+.edit-btn,
 .remove-btn {
-    background-color: #b85042;
-    color: white;
-    border: none;
     padding: 8px 12px;
+    border: none;
     cursor: pointer;
     border-radius: 6px;
     transition: background-color 0.3s ease;
+    width: 80px; /* set a fixed width to make both buttons the same size */
+    text-align: center; /* center the text inside the button */
+    font-family: 'Inter', sans-serif;
+}
+
+.edit-btn {
+    background-color: #8b6d5c;
+    color: white;
+}
+
+.remove-btn {
+    background-color: #b85042;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #725a4d;
 }
 
 .remove-btn:hover {
@@ -176,28 +193,4 @@ th {
 
 .expiring-soon:hover {
     background-color: #fff5d9;
-}
-
-/* styling for the search bar container */
-.search-container {
-    margin-bottom: 20px;
-}
-
-#search-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box; 
-}
-
-.action-btn {
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-    width: 80px; /* set a fixed width to make both buttons the same size */
-    text-align: center; /* center the text inside the button */
 }
