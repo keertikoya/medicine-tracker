@@ -15,7 +15,7 @@ h1 {
 
 /* container for the form and table */
 .container {
-    max-width: 900px;
+    max-width: 1100px;
     margin: 0 auto;
     background-color: #ffffff;
     padding: 30px;
@@ -137,7 +137,16 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 14px;
+    table-layout: fixed; /* ensures fixed column widths */
 }
+
+/* Specific widths for table columns */
+th:nth-child(1), td:nth-child(1) { width: 15%; } /* Medicine Name */
+th:nth-child(2), td:nth-child(2) { width: 10%; } /* Quantity */
+th:nth-child(3), td:nth-child(3) { width: 15%; } /* Expiration Date */
+th:nth-child(4), td:nth-child(4) { width: 15%; } /* Frequency */
+th:nth-child(5), td:nth-child(5) { width: 25%; } /* Notes (Increased width) */
+th:nth-child(6), td:nth-child(6) { width: 20%; } /* Actions */
 
 th, td {
     padding: 15px;
