@@ -48,7 +48,7 @@ function renderTable(medicines) {
 
         row.innerHTML = `
             <td>${medicine.name}</td>
-            <td>${medicine.quantity}</td>
+            <td>${medicine.quantity} ${medicine.unit}</td>
             <td>${medicine.exp_date}</td>
             <td>${medicine.frequency}</td>
             <td>${medicine.notes}</td>
@@ -149,11 +149,12 @@ form.addEventListener('submit', async (e) => {
     
     const name = document.getElementById('name').value;
     const quantity = document.getElementById('quantity').value;
+    const unit = document.getElementById('unit').value;
     const expDate = document.getElementById('exp-date').value;
     const frequency = document.getElementById('frequency').value;
     const notes = document.getElementById('notes').value;
     
-    const newMedicine = { name, quantity, expDate, frequency, notes };
+    const newMedicine = { name, quantity, unit, expDate, frequency, notes };
     
     try {
         showLoadingState();
@@ -215,6 +216,7 @@ tableBody.addEventListener('click', async (e) => {
         // pre-populate the form for editing
         document.getElementById('name').value = medicineToEdit.name;
         document.getElementById('quantity').value = medicineToEdit.quantity;
+        document.getElementById('unit').value = medicineToEdit.unit;
         document.getElementById('exp-date').value = medicineToEdit.exp_date;
         document.getElementById('frequency').value = medicineToEdit.frequency;
         document.getElementById('notes').value = medicineToEdit.notes;

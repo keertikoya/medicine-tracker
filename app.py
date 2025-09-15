@@ -53,6 +53,7 @@ def add_medicine():
     # extract data fields from the JSON
     name = data['name']
     quantity = data['quantity']
+    unit = data['unit']
     exp_date = data['expDate']
     frequency = data['frequency']
     notes = data.get('notes', '')
@@ -60,8 +61,8 @@ def add_medicine():
     try:
         conn = get_db_connection()
         # execute a SQL INSERT statement with the received data
-        conn.execute('INSERT INTO medicines (name, quantity, exp_date, frequency, notes) VALUES (?, ?, ?, ?, ?)',
-                    (name, quantity, exp_date, frequency, notes))
+        conn.execute('INSERT INTO medicines (name, quantity, unit, exp_date, frequency, notes) VALUES (?, ?, ?, ?, ?, ?)',
+            (name, quantity, unit, exp_date, frequency, notes))
         conn.commit()
         conn.close()
         # return a success message and HTTP status code 201 (Created)
@@ -86,13 +87,14 @@ def update_medicine(id):
     data = request.get_json()
     name = data['name']
     quantity = data['quantity']
+    unit = data['unit']
     exp_date = data['expDate']
     frequency = data['frequency']
     notes = data.get('notes', '')
 
     conn = get_db_connection()
-    conn.execute('UPDATE medicines SET name = ?, quantity = ?, exp_date = ?, frequency = ?, notes = ? WHERE id = ?',
-                 (name, quantity, exp_date, frequency, notes, id))
+    conn.execute('UPDATE medicines SET name = ?, quantity = ?, unit = ?, exp_date = ?, frequency = ?, notes = ? WHERE id = ?',
+        (name, quantity, unit, exp_date, frequency, notes, id))
     conn.commit()
     conn.close()
     return jsonify({'message': 'Medicine updated successfully'}), 200

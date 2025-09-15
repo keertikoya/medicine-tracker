@@ -18,6 +18,14 @@
             <div class="form-inputs">
                 <input type="text" id="name" placeholder="Medicine Name *" required>
                 <input type="number" id="quantity" placeholder="Quantity *" required>
+                <select id="unit" required>
+                    <option value="" disabled selected>Select Unit *</option>
+                    <option value="pills">Pills</option>
+                    <option value="mg">mg</option>
+                    <option value="mL">mL</option>
+                    <option value="tablets">Tablets</option>
+                    <option value="capsules">Capsules</option>
+                </select>
                 <input type="date" id="exp-date" required>
                 <select id="frequency" required>
                     <option value="" disabled selected>Select Frequency</option>
@@ -53,6 +61,7 @@
                 <tr>
                     <th>Medicine Name</th>
                     <th>Quantity</th>
+                    <th>Unit</th>
                     <th>Expiration Date</th>
                     <th>Frequency</th> 
                     <th>Notes</th>
