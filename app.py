@@ -24,6 +24,7 @@ def create_table():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             quantity INTEGER NOT NULL,
+            unit TEXT NOT NULL,
             exp_date TEXT NOT NULL,
             frequency TEXT NOT NULL,
             notes TEXT
@@ -73,13 +74,16 @@ def add_medicine():
 # API endpoint to delete a medicine by its unique ID
 @app.route('/api/medicines/<int:id>', methods=['DELETE'])
 def delete_medicine(id):
-    conn = get_db_connection()
-    # execute a SQL DELETE statement for the specified ID
-    conn.execute('DELETE FROM medicines WHERE id = ?', (id,))
-    conn.commit()
-    conn.close()
-    # return a success message and HTTP status code 200 (OK)
-    return jsonify({'message': 'Medicine deleted successfully'}), 200
+    try:
+        conn = get_db_connection()
+        # execute a SQL DELETE statement for the specified ID
+        conn.execute('DELETE FROM medicines WHERE id = ?', (id,))
+        conn.commit()
+        conn.close()
+        # return a success message and HTTP status code 200 (OK)
+        return jsonify({'message': 'Medicine deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # endpoint for updating a medication
 @app.route('/api/medicines/<int:id>', methods=['PUT'])
@@ -91,13 +95,16 @@ def update_medicine(id):
     exp_date = data['expDate']
     frequency = data['frequency']
     notes = data.get('notes', '')
-
-    conn = get_db_connection()
-    conn.execute('UPDATE medicines SET name = ?, quantity = ?, unit = ?, exp_date = ?, frequency = ?, notes = ? WHERE id = ?',
-        (name, quantity, unit, exp_date, frequency, notes, id))
-    conn.commit()
-    conn.close()
-    return jsonify({'message': 'Medicine updated successfully'}), 200
+    
+    try:
+        conn = get_db_connection()
+        conn.execute('UPDATE medicines SET name = ?, quantity = ?, unit = ?, exp_date = ?, frequency = ?, notes = ? WHERE id = ?',
+            (name, quantity, unit, exp_date, frequency, notes, id))
+        conn.commit()
+        conn.close()
+        return jsonify({'message': 'Medicine updated successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

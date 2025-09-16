@@ -137,16 +137,17 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 14px;
-    table-layout: fixed; /* ensures fixed column widths */
+    table-layout: fixed;
 }
 
-/* Specific widths for table columns */
+/* specific widths for table columns */
 th:nth-child(1), td:nth-child(1) { width: 15%; } /* Medicine Name */
 th:nth-child(2), td:nth-child(2) { width: 10%; } /* Quantity */
-th:nth-child(3), td:nth-child(3) { width: 15%; } /* Expiration Date */
-th:nth-child(4), td:nth-child(4) { width: 15%; } /* Frequency */
-th:nth-child(5), td:nth-child(5) { width: 25%; } /* Notes */
-th:nth-child(6), td:nth-child(6) { width: 20%; } /* Actions */
+th:nth-child(3), td:nth-child(3) { width: 10%; } /* Unit */
+th:nth-child(4), td:nth-child(4) { width: 15%; } /* Expiration Date */
+th:nth-child(5), td:nth-child(5) { width: 15%; } /* Frequency */
+th:nth-child(6), td:nth-child(6) { width: 25%; } /* Notes */
+th:nth-child(7), td:nth-child(7) { width: 10%; } /* Actions */
 
 th, td {
     padding: 15px;

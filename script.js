@@ -33,7 +33,7 @@ function renderTable(medicines) {
     if (medicines.length === 0) {
         tableBody.innerHTML = `
             <tr>
-                <td colspan="6" style="text-align: center; font-style: italic; color: #888;">No medications found. Add a new medication above or adjust your search.</td>
+                <td colspan="7" style="text-align: center; font-style: italic; color: #888;">No medications found. Add a new medication above or adjust your search.</td>
             </tr>
         `;
         return;
@@ -48,13 +48,14 @@ function renderTable(medicines) {
 
         row.innerHTML = `
             <td>${medicine.name}</td>
-            <td>${medicine.quantity} ${medicine.unit}</td>
+            <td>${medicine.quantity}</td>
+            <td>${medicine.unit}</td>
             <td>${medicine.exp_date}</td>
             <td>${medicine.frequency}</td>
             <td>${medicine.notes}</td>
             <td>
-                <button class="edit-btn" data-id="${medicine.id}">Edit</button>
-                <button class="remove-btn" data-id="${medicine.id}">Remove</button>
+                <button class="edit-btn action-btn" data-id="${medicine.id}">Edit</button>
+                <button class="remove-btn action-btn" data-id="${medicine.id}">Remove</button>
             </td>
         `;
         tableBody.appendChild(row);
@@ -65,7 +66,7 @@ function renderTable(medicines) {
 function showLoadingState() {
     tableBody.innerHTML = `
         <tr>
-            <td colspan="6" style="text-align: center; font-style: italic;">Loading...</td>
+            <td colspan="7" style="text-align: center; font-style: italic;">Loading...</td>
         </tr>
     `;
 }
@@ -181,8 +182,6 @@ form.addEventListener('submit', async (e) => {
                 body: JSON.stringify(newMedicine)
             });
         }
-
-        // fetch updated data and re-render the table after any form submission
         allMedicines = await fetchMedicines();
         renderTable(allMedicines);
         form.reset();
