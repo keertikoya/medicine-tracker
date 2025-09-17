@@ -5,6 +5,7 @@ const searchInput = document.getElementById('search-input');
 const filterTypeInput = document.getElementById('filter-type');
 const filterValueInput = document.getElementById('filter-value');
 const filterBtn = document.getElementById('filter-btn');
+const dailyScheduleContainer = document.getElementById('daily-schedule');
 
 // API endpoint URL
 const apiUrl = 'http://127.0.0.1:5000/api/medicines';
@@ -33,7 +34,7 @@ function renderTable(medicines) {
     if (medicines.length === 0) {
         tableBody.innerHTML = `
             <tr>
-                <td colspan="7" style="text-align: center; font-style: italic; color: #888;">No medications found. Add a new medication above or adjust your search.</td>
+                <td colspan="7" style="text-align: center; font-style: italic; color: #888;">no medications found. add a new medication above or adjust your search.</td>
             </tr>
         `;
         return;
@@ -54,19 +55,43 @@ function renderTable(medicines) {
             <td>${medicine.frequency}</td>
             <td>${medicine.notes}</td>
             <td>
-                <button class="edit-btn action-btn" data-id="${medicine.id}">Edit</button>
-                <button class="remove-btn action-btn" data-id="${medicine.id}">Remove</button>
+                <button class="edit-btn action-btn" data-id="${medicine.id}">edit</button>
+                <button class="remove-btn action-btn" data-id="${medicine.id}">remove</button>
             </td>
         `;
         tableBody.appendChild(row);
     });
 }
 
+// render the daily medication schedule
+function renderDailySchedule(medicines) {
+    dailyScheduleContainer.innerHTML = '';
+
+    const todaysMeds = medicines.filter(med => 
+        med.frequency === 'once-a-day' ||
+        med.frequency === 'twice-a-day' ||
+        med.frequency === 'three-times-a-day'
+    );
+    
+    if (todaysMeds.length === 0) {
+        dailyScheduleContainer.innerHTML = `<p style="text-align: center; font-style: italic;">No medications scheduled for today.</p>`;
+        return;
+    }
+
+    const list = document.createElement('ul');
+    todaysMeds.forEach(med => {
+        const item = document.createElement('li');
+        item.textContent = `${med.name}: ${med.frequency}`;
+        list.appendChild(item);
+    });
+    dailyScheduleContainer.appendChild(list);
+}
+
 // show a loading message in the table
 function showLoadingState() {
     tableBody.innerHTML = `
         <tr>
-            <td colspan="7" style="text-align: center; font-style: italic;">Loading...</td>
+            <td colspan="7" style="text-align: center; font-style: italic;">loading...</td>
         </tr>
     `;
 }
@@ -80,7 +105,7 @@ async function fetchMedicines() {
         const medicineData = await response.json();
         return medicineData;
     } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('error fetching data:', error);
         return [];
     }
 }
@@ -89,6 +114,7 @@ async function fetchMedicines() {
 async function initializeApp() {
     allMedicines = await fetchMedicines();
     renderTable(allMedicines);
+    renderDailySchedule(allMedicines);
 }
 initializeApp();
 
@@ -118,7 +144,7 @@ filterBtn.addEventListener('click', () => {
     if (filterType === 'quantity') {
         const parsedValue = parseInt(filterValue);
         if (isNaN(parsedValue)) {
-            console.error('Invalid quantity value.');
+            console.error('invalid quantity value.');
             return;
         }
         filteredMedicines = allMedicines.filter(medicine => medicine.quantity <= parsedValue);
@@ -171,7 +197,7 @@ form.addEventListener('submit', async (e) => {
             });
             isEditing = false;
             currentEditId = null;
-            document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'Add Medicine';
+            document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'add medicine';
         } else {
             // send a POST request to add a new medication
             await fetch(apiUrl, {
@@ -184,9 +210,10 @@ form.addEventListener('submit', async (e) => {
         }
         allMedicines = await fetchMedicines();
         renderTable(allMedicines);
+        renderDailySchedule(allMedicines);
         form.reset();
     } catch (error) {
-        error_message = `Error processing medication: ${error}`;
+        error_message = `error processing medication: ${error}`;
         console.log(error_message);
     }
 });
@@ -196,7 +223,7 @@ tableBody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('remove-btn')) {
         const id = e.target.getAttribute('data-id');
 
-        if (confirm('Are you sure you want to remove this medication?')) {
+        if (confirm('are you sure you want to remove this medication?')) {
             try {
                 showLoadingState();
                 await fetch(`${apiUrl}/${id}`, {
@@ -204,8 +231,9 @@ tableBody.addEventListener('click', async (e) => {
                 });
                 allMedicines = await fetchMedicines();
                 renderTable(allMedicines);
+                renderDailySchedule(allMedicines);
             } catch (error) {
-                console.log(`Error deleting medicine: ${error}`);
+                console.log(`error deleting medicine: ${error}`);
             }
         }
     } else if (e.target.classList.contains('edit-btn')) {
@@ -221,7 +249,7 @@ tableBody.addEventListener('click', async (e) => {
         document.getElementById('notes').value = medicineToEdit.notes;
 
         // change the button text and set the editing state
-        document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'Update Medicine';
+        document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'update medicine';
         isEditing = true;
         currentEditId = id;
     }

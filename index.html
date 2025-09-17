@@ -13,6 +13,15 @@
     <div class="container">
         <h1>Medicine Tracker</h1>
 
+        <!-- daily medication schedule -->
+        <div class="daily-schedule-container">
+            <h2>Today's Medication Schedule</h2>
+            <div id="daily-schedule">
+                <!-- schedule will be populated here by JavaScript -->
+            </div>
+        </div>
+        <hr class="divider">
+
         <!-- adding a new medicine -->
         <form id="medicine-form">
             <div class="form-inputs">
@@ -40,14 +49,14 @@
         </form>
 
         <!-- note for required fields -->
-        <p class="form-note">* Indicates a required field</p>
+        <p class="form-note">* indicates a required field</p>
 
         <!-- search and filter -->
         <div class="controls-container">
             <input type="text" id="search-input" placeholder="Search by Name...">
             <div class="filter-controls">
                 <select id="filter-type">
-                    <option value="quantity">Quantity &lt;=</option>
+                    <option value="quantity">Quantity <=</option>
                     <option value="expiration-date">Expiring On or Before</option>
                 </select>
                 <input type="text" id="filter-value" placeholder="Value">
@@ -69,18 +78,7 @@
                 </tr>
             </thead>
             <tbody id="medicine-table-body">
-                <!-- Data will be populated here by JavaScript -->
-                <tr>
-                    <td>Example Medicine</td>
-                    <td>10</td>
-                    <td>2025-12-31</td>
-                    <td>once-a-day</td>
-                    <td>Take with food</td>
-                    <td>
-                        <button class="edit-btn" data-id="1">Edit</button>
-                        <button class="remove-btn" data-id="1">Remove</button>
-                    </td>
-                </tr>
+                <!-- data will be populated here by JavaScript -->
             </tbody>
         </table>
     </div>
@@ -91,5 +89,6 @@
         const today = new Date().toISOString().split('T')[0];
         // set the min attribute of the expiration date input to today's date
         document.getElementById('exp-date').setAttribute('min', today);
-    </script></body>
+    </script>
+</body>
 </html>
