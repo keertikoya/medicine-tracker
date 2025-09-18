@@ -23,6 +23,42 @@ h1 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* daily schedule styling */
+.daily-schedule-container {
+    margin-bottom: 20px;
+}
+
+.daily-schedule-container h2 {
+    color: #4b3e39;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.daily-schedule-container ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+.daily-schedule-container li {
+    font-size: 1rem;
+    color: #555;
+    background-color: #f0e9e4;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background-color: #dcd3cb;
+    margin: 40px 0;
+}
+
 /* input and button styling */
 #medicine-form {
     display: flex;
@@ -107,7 +143,7 @@ h1 {
 .form-note {
     font-size: 12px;
     color: #888;
-    margin-top: -15px; /* Pull it closer to the form */
+    margin-top: -15px;
     text-align: right;
 }
 
@@ -141,13 +177,13 @@ table {
 }
 
 /* specific widths for table columns */
-th:nth-child(1), td:nth-child(1) { width: 15%; } /* Medicine Name */
-th:nth-child(2), td:nth-child(2) { width: 10%; } /* Quantity */
-th:nth-child(3), td:nth-child(3) { width: 10%; } /* Unit */
-th:nth-child(4), td:nth-child(4) { width: 15%; } /* Expiration Date */
-th:nth-child(5), td:nth-child(5) { width: 15%; } /* Frequency */
-th:nth-child(6), td:nth-child(6) { width: 25%; } /* Notes */
-th:nth-child(7), td:nth-child(7) { width: 10%; } /* Actions */
+th:nth-child(1), td:nth-child(1) { width: 15%; }
+th:nth-child(2), td:nth-child(2) { width: 10%; }
+th:nth-child(3), td:nth-child(3) { width: 10%; }
+th:nth-child(4), td:nth-child(4) { width: 15%; }
+th:nth-child(5), td:nth-child(5) { width: 15%; }
+th:nth-child(6), td:nth-child(6) { width: 25%; }
+th:nth-child(7), td:nth-child(7) { width: 10%; }
 
 th, td {
     padding: 15px;
@@ -163,17 +199,23 @@ th {
     letter-spacing: 0.5px;
 }
 
-/* Combined action button styling */
-.action-btn,
-.edit-btn,
-.remove-btn {
+/* a flex container for buttons */
+td:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+/* combined action button styling */
+.action-btn {
     padding: 8px 12px;
     border: none;
     cursor: pointer;
     border-radius: 6px;
     transition: background-color 0.3s ease;
-    width: 80px; /* set a fixed width to make both buttons the same size */
-    text-align: center; /* center the text inside the button */
+    width: 80px; /* Use a fixed width to make both buttons the same size */
+    text-align: center;
     font-family: 'Inter', sans-serif;
 }
 

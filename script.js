@@ -34,7 +34,7 @@ function renderTable(medicines) {
     if (medicines.length === 0) {
         tableBody.innerHTML = `
             <tr>
-                <td colspan="7" style="text-align: center; font-style: italic; color: #888;">no medications found. add a new medication above or adjust your search.</td>
+                <td colspan="7" style="text-align: center; font-style: italic; color: #888;">No medications found. Add a new medication above or adjust your search.</td>
             </tr>
         `;
         return;
@@ -44,7 +44,7 @@ function renderTable(medicines) {
         const row = document.createElement('tr');
         
         if (isExpiringSoon(medicine.exp_date)) {
-            row.classList.add('expiring-soon');
+            row.classList.add('Expiring-soon');
         }
 
         row.innerHTML = `
@@ -55,8 +55,8 @@ function renderTable(medicines) {
             <td>${medicine.frequency}</td>
             <td>${medicine.notes}</td>
             <td>
-                <button class="edit-btn action-btn" data-id="${medicine.id}">edit</button>
-                <button class="remove-btn action-btn" data-id="${medicine.id}">remove</button>
+                <button class="edit-btn action-btn" data-id="${medicine.id}">Edit</button>
+                <button class="remove-btn action-btn" data-id="${medicine.id}">Remove</button>
             </td>
         `;
         tableBody.appendChild(row);
@@ -68,9 +68,9 @@ function renderDailySchedule(medicines) {
     dailyScheduleContainer.innerHTML = '';
 
     const todaysMeds = medicines.filter(med => 
-        med.frequency === 'once-a-day' ||
-        med.frequency === 'twice-a-day' ||
-        med.frequency === 'three-times-a-day'
+        med.frequency === 'Once-a-day' ||
+        med.frequency === 'Twice-a-day' ||
+        med.frequency === 'Three-times-a-day'
     );
     
     if (todaysMeds.length === 0) {
@@ -105,7 +105,7 @@ async function fetchMedicines() {
         const medicineData = await response.json();
         return medicineData;
     } catch (error) {
-        console.error('error fetching data:', error);
+        console.error('Error fetching data:', error);
         return [];
     }
 }
@@ -144,7 +144,7 @@ filterBtn.addEventListener('click', () => {
     if (filterType === 'quantity') {
         const parsedValue = parseInt(filterValue);
         if (isNaN(parsedValue)) {
-            console.error('invalid quantity value.');
+            console.error('Invalid quantity value.');
             return;
         }
         filteredMedicines = allMedicines.filter(medicine => medicine.quantity <= parsedValue);
@@ -213,7 +213,7 @@ form.addEventListener('submit', async (e) => {
         renderDailySchedule(allMedicines);
         form.reset();
     } catch (error) {
-        error_message = `error processing medication: ${error}`;
+        error_message = `Error processing medication: ${error}`;
         console.log(error_message);
     }
 });
@@ -223,7 +223,7 @@ tableBody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('remove-btn')) {
         const id = e.target.getAttribute('data-id');
 
-        if (confirm('are you sure you want to remove this medication?')) {
+        if (confirm('Are you sure you want to remove this medication?')) {
             try {
                 showLoadingState();
                 await fetch(`${apiUrl}/${id}`, {
