@@ -33,13 +33,13 @@ h1 {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 10px;
-    text-align: center;
+    text-align: left; /* Changed to left-align the heading */
 }
 
 .daily-schedule-container ul {
     list-style-type: none;
     padding: 0;
-    text-align: center;
+    text-align: left; /* Changed to left-align the list */
 }
 
 .daily-schedule-container li {
@@ -176,6 +176,13 @@ table {
     table-layout: fixed;
 }
 
+/* new rule for centering the empty message */
+.empty-table-message {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+}
+
 /* specific widths for table columns */
 th:nth-child(1), td:nth-child(1) { width: 15%; }
 th:nth-child(2), td:nth-child(2) { width: 10%; }
@@ -202,9 +209,9 @@ th {
 /* a flex container for buttons */
 td:last-child {
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 5px;
+    justify-content: flex-start;
 }
 
 /* combined action button styling */
@@ -214,7 +221,7 @@ td:last-child {
     cursor: pointer;
     border-radius: 6px;
     transition: background-color 0.3s ease;
-    width: 80px; /* Use a fixed width to make both buttons the same size */
+    min-width: 80px; /* Use min-width to ensure buttons are at least 80px wide */
     text-align: center;
     font-family: 'Inter', sans-serif;
 }

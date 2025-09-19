@@ -33,9 +33,10 @@ function renderTable(medicines) {
     // if no medicines are found, display a message
     if (medicines.length === 0) {
         tableBody.innerHTML = `
-            <tr>
-                <td colspan="7" style="text-align: center; font-style: italic; color: #888;">No medications found. Add a new medication above or adjust your search.</td>
-            </tr>
+            <td colspan="7" style="font-style: italic; color: #888; text-align: center; width: 100%;">
+            No medications found. Add a new medication above or adjust your search.
+            </td>
+
         `;
         return;
     }
@@ -74,7 +75,7 @@ function renderDailySchedule(medicines) {
     );
     
     if (todaysMeds.length === 0) {
-        dailyScheduleContainer.innerHTML = `<p style="text-align: center; font-style: italic;">No medications scheduled for today.</p>`;
+        dailyScheduleContainer.innerHTML = `<p style="text-align: left; font-style: italic;">No medications scheduled for today.</p>`;
         return;
     }
 
