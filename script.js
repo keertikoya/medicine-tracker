@@ -33,10 +33,9 @@ function renderTable(medicines) {
     // if no medicines are found, display a message
     if (medicines.length === 0) {
         tableBody.innerHTML = `
-            <td colspan="7" style="font-style: italic; color: #888; text-align: center; width: 100%;">
-            No medications found. Add a new medication above or adjust your search.
-            </td>
-
+            <tr>
+                <td colspan="7" class="empty-table-message">no medications found. add a new medication above or adjust your search.</td>
+            </tr>
         `;
         return;
     }
@@ -45,7 +44,7 @@ function renderTable(medicines) {
         const row = document.createElement('tr');
         
         if (isExpiringSoon(medicine.exp_date)) {
-            row.classList.add('Expiring-soon');
+            row.classList.add('expiring-soon');
         }
 
         row.innerHTML = `
@@ -56,8 +55,8 @@ function renderTable(medicines) {
             <td>${medicine.frequency}</td>
             <td>${medicine.notes}</td>
             <td>
-                <button class="edit-btn action-btn" data-id="${medicine.id}">Edit</button>
-                <button class="remove-btn action-btn" data-id="${medicine.id}">Remove</button>
+                <button class="edit-btn action-btn" data-id="${medicine.id}">edit</button>
+                <button class="remove-btn action-btn" data-id="${medicine.id}">remove</button>
             </td>
         `;
         tableBody.appendChild(row);
@@ -68,14 +67,15 @@ function renderTable(medicines) {
 function renderDailySchedule(medicines) {
     dailyScheduleContainer.innerHTML = '';
 
+    // corrected to use lowercase strings to match database values
     const todaysMeds = medicines.filter(med => 
-        med.frequency === 'Once-a-day' ||
-        med.frequency === 'Twice-a-day' ||
-        med.frequency === 'Three-times-a-day'
+        med.frequency === 'once-a-day' ||
+        med.frequency === 'twice-a-day' ||
+        med.frequency === 'three-times-a-day'
     );
     
     if (todaysMeds.length === 0) {
-        dailyScheduleContainer.innerHTML = `<p style="text-align: left; font-style: italic;">No medications scheduled for today.</p>`;
+        dailyScheduleContainer.innerHTML = `<p class="empty-table-message">no medications scheduled for today.</p>`;
         return;
     }
 
@@ -92,7 +92,7 @@ function renderDailySchedule(medicines) {
 function showLoadingState() {
     tableBody.innerHTML = `
         <tr>
-            <td colspan="7" style="text-align: center; font-style: italic;">loading...</td>
+            <td colspan="7" class="empty-table-message">loading...</td>
         </tr>
     `;
 }
@@ -106,7 +106,7 @@ async function fetchMedicines() {
         const medicineData = await response.json();
         return medicineData;
     } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('error fetching data:', error);
         return [];
     }
 }
@@ -145,7 +145,7 @@ filterBtn.addEventListener('click', () => {
     if (filterType === 'quantity') {
         const parsedValue = parseInt(filterValue);
         if (isNaN(parsedValue)) {
-            console.error('Invalid quantity value.');
+            console.error('invalid quantity value.');
             return;
         }
         filteredMedicines = allMedicines.filter(medicine => medicine.quantity <= parsedValue);
@@ -214,7 +214,7 @@ form.addEventListener('submit', async (e) => {
         renderDailySchedule(allMedicines);
         form.reset();
     } catch (error) {
-        error_message = `Error processing medication: ${error}`;
+        error_message = `error processing medication: ${error}`;
         console.log(error_message);
     }
 });
@@ -224,7 +224,7 @@ tableBody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('remove-btn')) {
         const id = e.target.getAttribute('data-id');
 
-        if (confirm('Are you sure you want to remove this medication?')) {
+        if (confirm('are you sure you want to remove this medication?')) {
             try {
                 showLoadingState();
                 await fetch(`${apiUrl}/${id}`, {
