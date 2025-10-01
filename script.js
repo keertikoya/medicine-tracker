@@ -34,7 +34,7 @@ function renderTable(medicines) {
     if (medicines.length === 0) {
         tableBody.innerHTML = `
             <tr>
-                <td colspan="7" class="empty-table-message">no medications found. add a new medication above or adjust your search.</td>
+                <td colspan="7" class="empty-table-message">No medications found. Add a new medication above or adjust your search.</td>
             </tr>
         `;
         return;
@@ -55,9 +55,10 @@ function renderTable(medicines) {
             <td>${medicine.frequency}</td>
             <td>${medicine.notes}</td>
             <td>
-                <button class="edit-btn action-btn" data-id="${medicine.id}">edit</button>
-                <button class="remove-btn action-btn" data-id="${medicine.id}">remove</button>
+                <button class="edit-btn action-btn" data-id="${medicine.id}">Edit</button>
+                <button class="remove-btn action-btn" data-id="${medicine.id}">Remove</button>
             </td>
+            <td><input type="checkbox" class="med-checkbox" data-id="${medicine.id}"></td>
         `;
         tableBody.appendChild(row);
     });
@@ -75,14 +76,18 @@ function renderDailySchedule(medicines) {
     );
     
     if (todaysMeds.length === 0) {
-        dailyScheduleContainer.innerHTML = `<p class="empty-table-message">no medications scheduled for today.</p>`;
+        dailyScheduleContainer.innerHTML = `<p style="text-align: left; font-style: italic;">No medications scheduled for today.</p>`;
         return;
     }
 
     const list = document.createElement('ul');
     todaysMeds.forEach(med => {
         const item = document.createElement('li');
-        item.textContent = `${med.name}: ${med.frequency}`;
+        // updated to include a checkbox element in the list item
+        item.innerHTML = `
+            <input type="checkbox" class="daily-med-checkbox" data-id="${med.id}" id="schedule-med-${med.id}">
+            <label for="schedule-med-${med.id}">${med.name}: ${med.frequency.charAt(0).toUpperCase() + med.frequency.slice(1).replace(/-/g, ' ')}</label>
+        `;
         list.appendChild(item);
     });
     dailyScheduleContainer.appendChild(list);
@@ -92,7 +97,7 @@ function renderDailySchedule(medicines) {
 function showLoadingState() {
     tableBody.innerHTML = `
         <tr>
-            <td colspan="7" class="empty-table-message">loading...</td>
+            <td colspan="7" class="empty-table-message">Loading...</td>
         </tr>
     `;
 }
@@ -164,7 +169,7 @@ filterBtn.addEventListener('click', () => {
 filterTypeInput.addEventListener('change', () => {
     if (filterTypeInput.value === 'expiration-date') {
         filterValueInput.type = 'date';
-        const today = new Date().toISOString().split('T')[0];
+        const today = new Date().toISOString().split('t')[0];
         filterValueInput.setAttribute('min', today);
     } else {
         filterValueInput.type = 'text';
@@ -198,7 +203,7 @@ form.addEventListener('submit', async (e) => {
             });
             isEditing = false;
             currentEditId = null;
-            document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'add medicine';
+            document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'Add Medicine';
         } else {
             // send a POST request to add a new medication
             await fetch(apiUrl, {
@@ -224,7 +229,7 @@ tableBody.addEventListener('click', async (e) => {
     if (e.target.classList.contains('remove-btn')) {
         const id = e.target.getAttribute('data-id');
 
-        if (confirm('are you sure you want to remove this medication?')) {
+        if (confirm('Are you sure you want to remove this medication?')) {
             try {
                 showLoadingState();
                 await fetch(`${apiUrl}/${id}`, {
@@ -250,7 +255,7 @@ tableBody.addEventListener('click', async (e) => {
         document.getElementById('notes').value = medicineToEdit.notes;
 
         // change the button text and set the editing state
-        document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'update medicine';
+        document.getElementById('medicine-form').querySelector('button[type="submit"]').textContent = 'Update Medicine';
         isEditing = true;
         currentEditId = id;
     }
