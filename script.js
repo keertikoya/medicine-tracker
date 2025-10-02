@@ -58,7 +58,6 @@ function renderTable(medicines) {
                 <button class="edit-btn action-btn" data-id="${medicine.id}">Edit</button>
                 <button class="remove-btn action-btn" data-id="${medicine.id}">Remove</button>
             </td>
-            <td><input type="checkbox" class="med-checkbox" data-id="${medicine.id}"></td>
         `;
         tableBody.appendChild(row);
     });
@@ -83,7 +82,7 @@ function renderDailySchedule(medicines) {
     const list = document.createElement('ul');
     todaysMeds.forEach(med => {
         const item = document.createElement('li');
-        // updated to include a checkbox element in the list item
+        // updated to include a checkbox element and label wrapper
         item.innerHTML = `
             <input type="checkbox" class="daily-med-checkbox" data-id="${med.id}" id="schedule-med-${med.id}">
             <label for="schedule-med-${med.id}">${med.name}: ${med.frequency.charAt(0).toUpperCase() + med.frequency.slice(1).replace(/-/g, ' ')}</label>
@@ -173,6 +172,23 @@ filterTypeInput.addEventListener('change', () => {
         filterValueInput.setAttribute('min', today);
     } else {
         filterValueInput.type = 'text';
+    }
+});
+
+// new event listener for the daily schedule checkboxes
+dailyScheduleContainer.addEventListener('change', (e) => {
+    if (e.target.classList.contains('daily-med-checkbox')) {
+        const checkbox = e.target;
+        // find the corresponding label using the 'for' attribute
+        const label = document.querySelector(`label[for="${checkbox.id}"]`); 
+        
+        if (checkbox.checked) {
+            // apply a class to cross out and gray the text
+            label.classList.add('medication-taken');
+        } else {
+            // remove the class if unchecked
+            label.classList.remove('medication-taken');
+        }
     }
 });
 
