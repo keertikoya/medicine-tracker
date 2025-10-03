@@ -6,6 +6,8 @@ const filterTypeInput = document.getElementById('filter-type');
 const filterValueInput = document.getElementById('filter-value');
 const filterBtn = document.getElementById('filter-btn');
 const dailyScheduleContainer = document.getElementById('daily-schedule');
+const progressBarFill = document.getElementById('progress-fill'); // new element
+const progressText = document.getElementById('progress-text');     // new element
 
 // API endpoint URL
 const apiUrl = 'http://127.0.0.1:5000/api/medicines';
@@ -63,6 +65,24 @@ function renderTable(medicines) {
     });
 }
 
+// function to calculate and update the progress bar
+function updateProgressBar() {
+    // Select the list of checkboxes only within the daily schedule container
+    const totalMeds = dailyScheduleContainer.querySelectorAll('.daily-med-checkbox').length;
+    const takenMeds = dailyScheduleContainer.querySelectorAll('.daily-med-checkbox:checked').length;
+    
+    let percentage = 0;
+    if (totalMeds > 0) {
+        percentage = Math.round((takenMeds / totalMeds) * 100);
+    }
+    
+    // update the visual bar width
+    progressBarFill.style.width = percentage + '%';
+    
+    // update the descriptive text
+    progressText.textContent = `${takenMeds} of ${totalMeds} Doses Taken (${percentage}%)`;
+}
+
 // render the daily medication schedule
 function renderDailySchedule(medicines) {
     dailyScheduleContainer.innerHTML = '';
@@ -75,7 +95,12 @@ function renderDailySchedule(medicines) {
     );
     
     if (todaysMeds.length === 0) {
+        // render a message when no meds are scheduled
         dailyScheduleContainer.innerHTML = `<p style="text-align: left; font-style: italic;">No medications scheduled for today.</p>`;
+        
+        // hide/Reset progress bar if no meds are scheduled
+        progressText.textContent = "0 of 0 Doses Scheduled (0%)";
+        progressBarFill.style.width = '0%';
         return;
     }
 
@@ -90,6 +115,9 @@ function renderDailySchedule(medicines) {
         list.appendChild(item);
     });
     dailyScheduleContainer.appendChild(list);
+    
+    // initial update of the progress bar after rendering the list
+    updateProgressBar();
 }
 
 // show a loading message in the table
@@ -168,14 +196,14 @@ filterBtn.addEventListener('click', () => {
 filterTypeInput.addEventListener('change', () => {
     if (filterTypeInput.value === 'expiration-date') {
         filterValueInput.type = 'date';
-        const today = new Date().toISOString().split('t')[0];
+        const today = new Date().toISOString().split('T')[0];
         filterValueInput.setAttribute('min', today);
     } else {
         filterValueInput.type = 'text';
     }
 });
 
-// new event listener for the daily schedule checkboxes
+// event listener for the daily schedule checkboxes
 dailyScheduleContainer.addEventListener('change', (e) => {
     if (e.target.classList.contains('daily-med-checkbox')) {
         const checkbox = e.target;
@@ -189,6 +217,9 @@ dailyScheduleContainer.addEventListener('change', (e) => {
             // remove the class if unchecked
             label.classList.remove('medication-taken');
         }
+        
+        // update the progress bar every time a checkbox is clicked
+        updateProgressBar();
     }
 });
 

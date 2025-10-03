@@ -40,7 +40,7 @@ h1 {
     list-style-type: none;
     padding: 0;
     text-align: left; /* Changed to left-align the list */
-    max-width: 50%; 
+    max-width: 50%;
 }
 
 .daily-schedule-container li {
@@ -52,24 +52,34 @@ h1 {
     margin-bottom: 5px;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
-/* Style the label (the text) when the checkbox is checked */
-.medication-taken {
-    text-decoration: line-through; /* Cross out the text */
-    color: #888 !important; /* Gray out the text */
+/* progress bar styling */
+.progress-bar-container {
+    margin-bottom: 20px;
+    max-width: 50%;
 }
 
-.daily-schedule-container li label {
-    margin-left: 10px; /* Space between checkbox and text */
+.progress-bar {
+    width: 100%;
+    background-color: #e6dfd8; /* light background track */
+    border-radius: 4px;
+    overflow: hidden;
+    height: 20px;
 }
 
+.progress-fill {
+    height: 100%;
+    background-color: #8b6d5c;
+    transition: width 0.3s ease-in-out;
+    width: 0; /* starts at 0% */
+}
 
-.divider {
-    border: 0;
-    height: 1px;
-    background-color: #dcd3cb;
-    margin: 40px 0;
+.progress-text {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #4b3e39;
 }
 
 /* input and button styling */
@@ -199,11 +209,11 @@ table {
 /* specific widths for table columns */
 th:nth-child(1), td:nth-child(1) { width: 15%; }
 th:nth-child(2), td:nth-child(2) { width: 10%; }
-th:nth-child(3), td:nth-child(3) { width: 5%; }
+th:nth-child(3), td:nth-child(3) { width: 10%; }
 th:nth-child(4), td:nth-child(4) { width: 15%; }
 th:nth-child(5), td:nth-child(5) { width: 15%; }
-th:nth-child(6), td:nth-child(6) { width: 20%; }
-th:nth-child(7), td:nth-child(7) { width: 30%; }
+th:nth-child(6), td:nth-child(6) { width: 25%; }
+th:nth-child(7), td:nth-child(7) { width: 10%; }
 
 th, td {
     padding: 15px;
@@ -222,8 +232,8 @@ th {
 /* a flex container for buttons */
 td:last-child {
     display: flex;
-    flex-direction: column; /* FORCES VERTICAL STACKING */
-    align-items: stretch; /* Allows buttons to fill width */
+    flex-direction: column;
+    align-items: stretch;
     gap: 5px;
 }
 
@@ -234,7 +244,7 @@ td:last-child {
     cursor: pointer;
     border-radius: 6px;
     transition: background-color 0.3s ease;
-    width: 100%; /* Make buttons fill the available width in the cell */
+    width: 100%;
     text-align: center;
     font-family: 'Inter', sans-serif;
 }
@@ -265,4 +275,40 @@ td:last-child {
 
 .expiring-soon:hover {
     background-color: #fff5d9;
+}
+
+/* style the label (the text) when the checkbox is checked */
+.medication-taken {
+    text-decoration: line-through; /* cross out the text */
+    color: #888 !important; /* gray out the text */
+}
+
+.daily-schedule-container li label {
+    margin-left: 10px; /* space between checkbox and text */
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background-color: #dcd3cb;
+    margin: 40px 0;
+}
+
+.daily-schedule-container li {
+    font-size: 1rem;
+    color: #555;
+    background-color: #f0e9e4;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.daily-schedule-container ul {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+    max-width: 50%;
 }

@@ -13,16 +13,25 @@
     <div class="container">
         <h1>Medicine Tracker</h1>
 
-        <!-- daily medication schedule -->
+        <!-- Daily Medication Schedule -->
         <div class="daily-schedule-container">
             <h2>Today's Medication Schedule</h2>
+            
+            <!-- Progress Bar Container -->
+            <div class="progress-bar-container">
+                <div id="progress-text" class="progress-text">0 of 0 Doses Taken (0%)</div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+            </div>
+
             <div id="daily-schedule">
-                <!-- schedule will be populated here by JavaScript -->
+                <!-- Schedule list will be populated here by JavaScript -->
             </div>
         </div>
         <hr class="divider">
 
-        <!-- adding a new medicine -->
+        <!-- Adding a new medicine -->
         <form id="medicine-form">
             <div class="form-inputs">
                 <input type="text" id="name" placeholder="Medicine Name *" required>
@@ -48,10 +57,10 @@
             <button type="submit">Add Medicine</button>
         </form>
 
-        <!-- note for required fields -->
-        <p class="form-note">* indicates a required field</p>
+        <!-- Note for required fields -->
+        <p class="form-note">* Indicates a required field</p>
 
-        <!-- search and filter -->
+        <!-- Search and filter -->
         <div class="controls-container">
             <input type="text" id="search-input" placeholder="Search by Name...">
             <div class="filter-controls">
@@ -64,7 +73,7 @@
             </div>
         </div>
 
-        <!-- display medicine inventory -->
+        <!-- Display medicine inventory -->
         <table id="medicine-table">
             <thead>
                 <tr>
@@ -78,7 +87,7 @@
                 </tr>
             </thead>
             <tbody id="medicine-table-body">
-                <!-- data will be populated here by JavaScript -->
+                <!-- Data will be populated here by JavaScript -->
             </tbody>
         </table>
     </div>
