@@ -40,6 +40,7 @@ h1 {
     list-style-type: none;
     padding: 0;
     text-align: left; /* Changed to left-align the list */
+    max-width: 50%; 
 }
 
 .daily-schedule-container li {
@@ -49,7 +50,7 @@ h1 {
     padding: 10px 15px;
     border-radius: 8px;
     margin-bottom: 5px;
-    display: flex; /* Changed to flex to align checkbox and label */
+    display: flex;
     align-items: center;
 }
 
@@ -198,11 +199,11 @@ table {
 /* specific widths for table columns */
 th:nth-child(1), td:nth-child(1) { width: 15%; }
 th:nth-child(2), td:nth-child(2) { width: 10%; }
-th:nth-child(3), td:nth-child(3) { width: 10%; }
+th:nth-child(3), td:nth-child(3) { width: 5%; }
 th:nth-child(4), td:nth-child(4) { width: 15%; }
 th:nth-child(5), td:nth-child(5) { width: 15%; }
-th:nth-child(6), td:nth-child(6) { width: 25%; }
-th:nth-child(7), td:nth-child(7) { width: 10%; }
+th:nth-child(6), td:nth-child(6) { width: 20%; }
+th:nth-child(7), td:nth-child(7) { width: 30%; }
 
 th, td {
     padding: 15px;
