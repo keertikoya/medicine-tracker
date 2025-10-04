@@ -81,7 +81,39 @@ function updateProgressBar() {
     
     // update the descriptive text
     progressText.textContent = `${takenMeds} of ${totalMeds} Doses Taken (${percentage}%)`;
+
+    // trigger confetti if 100% complete
+    if (percentage === 100 && totalMeds > 0) {
+        triggerConfetti();
+    }
 }
+
+// function to trigger a simple confetti effect using emojis
+function triggerConfetti() {
+    const colors = ['🎉', '🎊', '✨', '⭐', '🎈'];
+    const container = document.body;
+    
+    // remove previous confetti elements to prevent clutter
+    document.querySelectorAll('.confetti-piece').forEach(el => el.remove());
+
+    for (let i = 0; i < 50; i++) {
+        const piece = document.createElement('span');
+        piece.classList.add('confetti-piece');
+        piece.textContent = colors[Math.floor(Math.random() * colors.length)];
+        
+        // randomize position and animation delay
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.animationDelay = `${Math.random() * 2}s`;
+        piece.style.fontSize = `${10 + Math.random() * 20}px`;
+        piece.style.opacity = `${0.5 + Math.random() * 0.5}`;
+        
+        container.appendChild(piece);
+        
+        // remove piece after animation ends (3 seconds)
+        setTimeout(() => piece.remove(), 3000);
+    }
+}
+
 
 // render the daily medication schedule
 function renderDailySchedule(medicines) {
@@ -98,7 +130,7 @@ function renderDailySchedule(medicines) {
         // render a message when no meds are scheduled
         dailyScheduleContainer.innerHTML = `<p style="text-align: left; font-style: italic;">No medications scheduled for today.</p>`;
         
-        // hide/Reset progress bar if no meds are scheduled
+        // hide/reset progress bar if no meds are scheduled
         progressText.textContent = "0 of 0 Doses Scheduled (0%)";
         progressBarFill.style.width = '0%';
         return;

@@ -312,3 +312,27 @@ td:last-child {
     text-align: left;
     max-width: 50%;
 }
+
+
+/* confetti styling (when progress bar reaches 100%) */
+.confetti-piece {
+    /* base positioning for animation */
+    position: fixed; /* positions relative to the viewport */
+    top: 0;
+    z-index: 9999; /* on top of all other content */
+    
+    animation: confetti-fall 3s ease-out forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        /* starts at the top, no rotation, full opacity */
+        transform: translateY(0) rotateZ(0deg);
+        opacity: 1;
+    }
+    100% {
+        /* ends at the bottom, rotated, faded out */
+        transform: translateY(100vh) rotateZ(1080deg); 
+        opacity: 0;
+    }
+}
