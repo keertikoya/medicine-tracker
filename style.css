@@ -33,13 +33,13 @@ h1 {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 10px;
-    text-align: left; /* Changed to left-align the heading */
+    text-align: left;
 }
 
 .daily-schedule-container ul {
     list-style-type: none;
     padding: 0;
-    text-align: left; /* Changed to left-align the list */
+    text-align: left;
     max-width: 50%;
 }
 
@@ -314,25 +314,30 @@ td:last-child {
 }
 
 
-/* confetti styling (when progress bar reaches 100%) */
+/* confetting styling*/
 .confetti-piece {
     /* base positioning for animation */
     position: fixed; /* positions relative to the viewport */
     top: 0;
+    pointer-events: none; /* allows clicks through the confetti */
     z-index: 9999; /* on top of all other content */
     
-    animation: confetti-fall 3s ease-out forwards;
+    /* apply the falling animation with a variable duration set in JS */
+    animation-name: fall;
+    animation-timing-function: linear; /* consistent speed */
+    animation-fill-mode: forwards; /* stay at the end state */
 }
 
-@keyframes confetti-fall {
+/* keyframes for the falling animation (fall straight down) */
+@keyframes fall {
+    /* starts slightly above the viewport */
     0% {
-        /* starts at the top, no rotation, full opacity */
-        transform: translateY(0) rotateZ(0deg);
+        transform: translateY(-10vh) rotateZ(0deg); 
         opacity: 1;
     }
+    /* ends off the bottom of the screen, with a full rotation */
     100% {
-        /* ends at the bottom, rotated, faded out */
-        transform: translateY(100vh) rotateZ(1080deg); 
-        opacity: 0;
+        transform: translateY(110vh) rotateZ(720deg); 
+        opacity: 0.1; /* fade slightly as it falls */
     }
 }

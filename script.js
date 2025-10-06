@@ -88,29 +88,47 @@ function updateProgressBar() {
     }
 }
 
-// function to trigger a simple confetti effect using emojis
+// function to trigger a simple confetti effect
 function triggerConfetti() {
-    const colors = ['🎉', '🎊', '✨', '⭐', '🎈'];
+    // palette of rainbow colors
+    const rainbowColors = [
+        '#FF0000', // Red
+        '#FF7F00', // Orange
+        '#FFFF00', // Yellow
+        '#00FF00', // Green
+        '#0000FF', // Blue
+        '#4B0082', // Indigo
+        '#9400D3'  // Violet
+    ];
+    
     const container = document.body;
     
     // remove previous confetti elements to prevent clutter
     document.querySelectorAll('.confetti-piece').forEach(el => el.remove());
 
     for (let i = 0; i < 50; i++) {
-        const piece = document.createElement('span');
+        // create a div
+        const piece = document.createElement('div'); 
         piece.classList.add('confetti-piece');
-        piece.textContent = colors[Math.floor(Math.random() * colors.length)];
         
-        // randomize position and animation delay
+        // assign a random rainbow background color
+        piece.style.backgroundColor = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
+        
+        // randomize size to create variety
+        piece.style.width = `${5 + Math.random() * 10}px`;   // width between 5px and 15px
+        piece.style.height = `${10 + Math.random() * 20}px`; // height between 10px and 30px
+        
+        // randomize start position (left/x-axis)
         piece.style.left = `${Math.random() * 100}vw`;
-        piece.style.animationDelay = `${Math.random() * 2}s`;
-        piece.style.fontSize = `${10 + Math.random() * 20}px`;
-        piece.style.opacity = `${0.5 + Math.random() * 0.5}`;
+        
+        // randomize animation duration and initial opacity
+        piece.style.animationDuration = `${2 + Math.random() * 3}s`; // New: Set random duration for the fall
+        piece.style.opacity = `${0.6 + Math.random() * 0.4}`; // Slightly higher opacity for visibility
         
         container.appendChild(piece);
         
-        // remove piece after animation ends (3 seconds)
-        setTimeout(() => piece.remove(), 3000);
+        // remove piece after animation ends (using the maximum possible duration plus a buffer)
+        setTimeout(() => piece.remove(), 5500); 
     }
 }
 
