@@ -36,7 +36,7 @@ function renderTable(medicines) {
     if (medicines.length === 0) {
         tableBody.innerHTML = `
             <tr>
-                <td colspan="7" class="empty-table-message">No medications found. Add a new medication above or adjust your search.</td>
+                <td colspan="6" class="empty-table-message">No medications found. Add a new medication above or adjust your search.</td>
             </tr>
         `;
         return;
@@ -51,8 +51,7 @@ function renderTable(medicines) {
 
         row.innerHTML = `
             <td>${medicine.name}</td>
-            <td>${medicine.quantity}</td>
-            <td>${medicine.unit}</td>
+            <td>${medicine.quantity} ${medicine.unit}</td>
             <td>${medicine.exp_date}</td>
             <td>${medicine.frequency}</td>
             <td>${medicine.notes}</td>

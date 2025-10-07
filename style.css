@@ -207,18 +207,18 @@ table {
 }
 
 /* specific widths for table columns */
-th:nth-child(1), td:nth-child(1) { width: 15%; }
-th:nth-child(2), td:nth-child(2) { width: 10%; }
-th:nth-child(3), td:nth-child(3) { width: 10%; }
-th:nth-child(4), td:nth-child(4) { width: 15%; }
-th:nth-child(5), td:nth-child(5) { width: 15%; }
-th:nth-child(6), td:nth-child(6) { width: 25%; }
-th:nth-child(7), td:nth-child(7) { width: 10%; }
+th:nth-child(1), td:nth-child(1) { width: 15%; } /* Medicine Name */
+th:nth-child(2), td:nth-child(2) { width: 10%; } /* Quantity */
+th:nth-child(3), td:nth-child(3) { width: 15%; } /* Expiration Date */
+th:nth-child(4), td:nth-child(4) { width: 15%; } /* Frequency */
+th:nth-child(5), td:nth-child(5) { width: 35%; } /* Notes */
+th:nth-child(6), td:nth-child(6) { width: 10%; } /* Actions */
 
 th, td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #f0e9e4;
+    word-wrap: break-word; /* long content wraps */
 }
 
 th {
