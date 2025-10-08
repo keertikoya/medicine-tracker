@@ -341,3 +341,14 @@ td:last-child {
         opacity: 0.1; /* fade slightly as it falls */
     }
 }
+
+
+/* empty message cell should ignore the default column width constraints */
+td.empty-table-message {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    /* ensure the content can stretch across the full TD width */
+    width: 100% !important; 
+    padding: 20px;
+}

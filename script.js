@@ -66,7 +66,7 @@ function renderTable(medicines) {
 
 // function to calculate and update the progress bar
 function updateProgressBar() {
-    // Select the list of checkboxes only within the daily schedule container
+    // select the list of checkboxes only within the daily schedule container
     const totalMeds = dailyScheduleContainer.querySelectorAll('.daily-med-checkbox').length;
     const takenMeds = dailyScheduleContainer.querySelectorAll('.daily-med-checkbox:checked').length;
     
@@ -173,7 +173,7 @@ function renderDailySchedule(medicines) {
 function showLoadingState() {
     tableBody.innerHTML = `
         <tr>
-            <td colspan="7" class="empty-table-message">Loading...</td>
+            <td colspan="6" class="empty-table-message">Loading...</td>
         </tr>
     `;
 }
