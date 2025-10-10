@@ -356,3 +356,45 @@ tableBody.addEventListener('click', async (e) => {
         currentEditId = id;
     }
 });
+
+// PDF export functionality using jsPDF
+document.getElementById('download-pdf-btn').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    let yPos = 20;
+    doc.setFontSize(18);
+    doc.text("Medicine Tracker Inventory", 14, yPos);
+    yPos += 10;
+
+    // table header
+    doc.setFontSize(12);
+    const headers = ["Medicine Name", "Quantity", "Expiration Date", "Frequency", "Notes"];
+    headers.forEach((header, i) => {
+        doc.text(header, 14 + i * 38, yPos);
+    });
+    yPos += 7;
+
+    // table rows
+    allMedicines.forEach(med => {
+        const values = [
+            med.name,
+            `${med.quantity} ${med.unit}`,
+            med.exp_date,
+            med.frequency,
+            med.notes
+        ];
+        values.forEach((val, i) => {
+            doc.text(val.toString(), 14 + i * 38, yPos);
+        });
+        yPos += 7;
+
+        // add new page if exceeding page height
+        if (yPos > 280) {
+            doc.addPage();
+            yPos = 20;
+        }
+    });
+
+    doc.save("Medicine_Inventory.pdf");
+});

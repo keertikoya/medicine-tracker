@@ -190,6 +190,16 @@ h1 {
     white-space: nowrap;
 }
 
+/* download pdf button styling */
+#download-pdf-btn {
+    background-color: #695311;
+    color: white;
+}
+
+#download-pdf-btn:hover {
+    background-color: #976611;
+}
+
 /* table styling */
 table {
     width: 100%;
@@ -212,7 +222,7 @@ th:nth-child(2), td:nth-child(2) { width: 10%; } /* Quantity */
 th:nth-child(3), td:nth-child(3) { width: 15%; } /* Expiration Date */
 th:nth-child(4), td:nth-child(4) { width: 15%; } /* Frequency */
 th:nth-child(5), td:nth-child(5) { width: 35%; } /* Notes */
-th:nth-child(6), td:nth-child(6) { width: 10%; } /* Actions */
+th:nth-child(6), td:nth-child(6) { width: 30%; } /* Actions */
 
 th, td {
     padding: 15px;
