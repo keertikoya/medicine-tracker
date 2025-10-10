@@ -13,9 +13,15 @@
     <div class="container">
         <h1>Medicine Tracker</h1>
 
+        <!-- PDF export button using jsPDF-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
         <!-- Daily Medication Schedule -->
         <div class="daily-schedule-container">
-            <h2>Today's Medication Schedule</h2>
+            <div class="header-row">
+                <h2>Today's Medication Schedule</h2>
+                <button id="download-pdf-btn" class="action-btn">Download PDF</button>
+              </div>
             
             <!-- Progress Bar Container -->
             <div class="progress-bar-container">
@@ -71,12 +77,6 @@
                 <input type="text" id="filter-value" placeholder="Value">
                 <button id="filter-btn">Apply Filter</button>
             </div>
-        </div>
-
-        <!-- PDF export button using jsPDF-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-        <div style="text-align: right; margin-top: 15px;">
-            <button id="download-pdf-btn" class="action-btn" style="background-color: #794c20; color: white;">Download PDF</button>
         </div>
 
         <!-- Display medicine inventory -->
