@@ -6,8 +6,8 @@ const filterTypeInput = document.getElementById('filter-type');
 const filterValueInput = document.getElementById('filter-value');
 const filterBtn = document.getElementById('filter-btn');
 const dailyScheduleContainer = document.getElementById('daily-schedule');
-const progressBarFill = document.getElementById('progress-fill'); // new element
-const progressText = document.getElementById('progress-text');     // new element
+const progressBarFill = document.getElementById('progress-fill'); 
+const progressText = document.getElementById('progress-text');
 
 // API endpoint URL
 const apiUrl = 'http://127.0.0.1:5000/api/medicines';

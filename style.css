@@ -125,13 +125,8 @@ h1 {
     font-family: 'Inter', sans-serif;
 }
 
-#medicine-form button[type="submit"] {
-    background-color: #8b6d5c;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    white-space: nowrap;
+#medicine-form button[type="submit"]:hover {
+    background-color: #745a4c;
 }
 
 /* search and filter styling */
@@ -189,6 +184,10 @@ h1 {
     transition: background-color 0.3s ease;
     white-space: nowrap;
 }
+
+#filter-btn:hover {
+    background-color: #745a4c;
+  }
 
 /* download pdf button styling */
 #download-pdf-btn {
@@ -296,12 +295,12 @@ td:last-child {
 
 /* alert styling for expiring medicines */
 .expiring-soon {
-    background-color: #fff9e6;
-    border-left: 5px solid #ffcc00;
+    background-color: #f7afae;
+    border-left: 5px solid #f14228;
 }
 
 .expiring-soon:hover {
-    background-color: #fff5d9;
+    background-color: #f79797;
 }
 
 /* style the label (the text) when the checkbox is checked */
