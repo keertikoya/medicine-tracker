@@ -9,8 +9,11 @@ I was inspired to create this after getting sick while traveling in India in the
 ## Features
 - **CRUD Operations**: Add, view, update, and delete medications in a clean, interactive table.
 - **Persistent Data Storage**: Flask backend with SQLite ensures data is saved even when the browser is closed.
+- **Daily Medication Schedule**: Displays a filtered list of medications required on the current day.
+- **Generate PDF Report**: Exports the full medication inventory as a clean, printable PDF for records or doctor visits.
 - **Expiration Alerts**: Automatic highlighting of medications within one week of expiration.
 - **Dynamic Search**: Real-time search filters medications by name as you type.
+- **Interactive Progress Bar**: Tracks daily dose compliance; 100% completion triggers a confetti animation for positive feedback.
 - **Modern UI**: Clean, minimalist design and a responsive layout for all screen sizes.
 
 ---
