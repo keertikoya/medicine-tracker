@@ -6,8 +6,8 @@ const filterTypeInput = document.getElementById('filter-type');
 const filterValueInput = document.getElementById('filter-value');
 const filterBtn = document.getElementById('filter-btn');
 const dailyScheduleContainer = document.getElementById('daily-schedule');
-const progressBarFill = document.getElementById('progress-fill'); 
-const progressText = document.getElementById('progress-text');
+const progressBarFill = document.getElementById('progress-fill'); // new element
+const progressText = document.getElementById('progress-text');     // new element
 
 // API endpoint URL
 const apiUrl = 'http://127.0.0.1:5000/api/medicines';
@@ -36,7 +36,7 @@ function renderTable(medicines) {
     if (medicines.length === 0) {
         tableBody.innerHTML = `
             <tr>
-                <td colspan="6" class="empty-table-message">No medications found. Add a new medication above or adjust your search.</td>
+                <td colspan="7" class="empty-table-message">No medications found. Add a new medication above or adjust your search.</td>
             </tr>
         `;
         return;
@@ -51,7 +51,8 @@ function renderTable(medicines) {
 
         row.innerHTML = `
             <td>${medicine.name}</td>
-            <td>${medicine.quantity} ${medicine.unit}</td>
+            <td>${medicine.quantity}</td>
+            <td>${medicine.unit}</td>
             <td>${medicine.exp_date}</td>
             <td>${medicine.frequency}</td>
             <td>${medicine.notes}</td>
@@ -66,7 +67,7 @@ function renderTable(medicines) {
 
 // function to calculate and update the progress bar
 function updateProgressBar() {
-    // select the list of checkboxes only within the daily schedule container
+    // Select the list of checkboxes only within the daily schedule container
     const totalMeds = dailyScheduleContainer.querySelectorAll('.daily-med-checkbox').length;
     const takenMeds = dailyScheduleContainer.querySelectorAll('.daily-med-checkbox:checked').length;
     
@@ -87,47 +88,29 @@ function updateProgressBar() {
     }
 }
 
-// function to trigger a simple confetti effect
+// function to trigger a simple confetti effect using emojis
 function triggerConfetti() {
-    // palette of rainbow colors
-    const rainbowColors = [
-        '#FF0000', // Red
-        '#FF7F00', // Orange
-        '#FFFF00', // Yellow
-        '#00FF00', // Green
-        '#0000FF', // Blue
-        '#4B0082', // Indigo
-        '#9400D3'  // Violet
-    ];
-    
+    const colors = ['🎉', '🎊', '✨', '⭐', '🎈'];
     const container = document.body;
     
     // remove previous confetti elements to prevent clutter
     document.querySelectorAll('.confetti-piece').forEach(el => el.remove());
 
     for (let i = 0; i < 50; i++) {
-        // create a div
-        const piece = document.createElement('div'); 
+        const piece = document.createElement('span');
         piece.classList.add('confetti-piece');
+        piece.textContent = colors[Math.floor(Math.random() * colors.length)];
         
-        // assign a random rainbow background color
-        piece.style.backgroundColor = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
-        
-        // randomize size to create variety
-        piece.style.width = `${5 + Math.random() * 10}px`;   // width between 5px and 15px
-        piece.style.height = `${10 + Math.random() * 20}px`; // height between 10px and 30px
-        
-        // randomize start position (left/x-axis)
+        // randomize position and animation delay
         piece.style.left = `${Math.random() * 100}vw`;
-        
-        // randomize animation duration and initial opacity
-        piece.style.animationDuration = `${2 + Math.random() * 3}s`; // New: Set random duration for the fall
-        piece.style.opacity = `${0.6 + Math.random() * 0.4}`; // Slightly higher opacity for visibility
+        piece.style.animationDelay = `${Math.random() * 2}s`;
+        piece.style.fontSize = `${10 + Math.random() * 20}px`;
+        piece.style.opacity = `${0.5 + Math.random() * 0.5}`;
         
         container.appendChild(piece);
         
-        // remove piece after animation ends (using the maximum possible duration plus a buffer)
-        setTimeout(() => piece.remove(), 5500); 
+        // remove piece after animation ends (3 seconds)
+        setTimeout(() => piece.remove(), 3000);
     }
 }
 
@@ -152,16 +135,30 @@ function renderDailySchedule(medicines) {
         progressBarFill.style.width = '0%';
         return;
     }
+    
+    const frequencyMap = {
+        'once-a-day': 1,
+        'twice-a-day': 2,
+        'three-times-a-day': 3
+    };
 
     const list = document.createElement('ul');
     todaysMeds.forEach(med => {
-        const item = document.createElement('li');
-        // updated to include a checkbox element and label wrapper
-        item.innerHTML = `
-            <input type="checkbox" class="daily-med-checkbox" data-id="${med.id}" id="schedule-med-${med.id}">
-            <label for="schedule-med-${med.id}">${med.name}: ${med.frequency.charAt(0).toUpperCase() + med.frequency.slice(1).replace(/-/g, ' ')}</label>
-        `;
-        list.appendChild(item);
+        const numDoses = frequencyMap[med.frequency] || 1; // default to 1 if map fails
+
+        for (let i = 1; i <= numDoses; i++) {
+            const doseId = `${med.id}-${i}`;
+            const item = document.createElement('li');
+            
+            // generate dose label: Medication Name (Quantity Unit) — Dose X
+            let doseLabel = `${med.name} (${med.quantity} ${med.unit}) — Dose ${i}`;
+            
+            item.innerHTML = `
+                <input type="checkbox" class="daily-med-checkbox" data-id="${med.id}" id="schedule-med-${doseId}">
+                <label for="schedule-med-${doseId}">${doseLabel}</label>
+            `;
+            list.appendChild(item);
+        }
     });
     dailyScheduleContainer.appendChild(list);
     
@@ -173,7 +170,7 @@ function renderDailySchedule(medicines) {
 function showLoadingState() {
     tableBody.innerHTML = `
         <tr>
-            <td colspan="6" class="empty-table-message">Loading...</td>
+            <td colspan="7" class="empty-table-message">Loading...</td>
         </tr>
     `;
 }
@@ -355,46 +352,4 @@ tableBody.addEventListener('click', async (e) => {
         isEditing = true;
         currentEditId = id;
     }
-});
-
-// PDF export functionality using jsPDF
-document.getElementById('download-pdf-btn').addEventListener('click', () => {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    let yPos = 20;
-    doc.setFontSize(18);
-    doc.text("Medicine Tracker Inventory", 14, yPos);
-    yPos += 10;
-
-    // table header
-    doc.setFontSize(12);
-    const headers = ["Medicine Name", "Quantity", "Expiration Date", "Frequency", "Notes"];
-    headers.forEach((header, i) => {
-        doc.text(header, 14 + i * 38, yPos);
-    });
-    yPos += 7;
-
-    // table rows
-    allMedicines.forEach(med => {
-        const values = [
-            med.name,
-            `${med.quantity} ${med.unit}`,
-            med.exp_date,
-            med.frequency,
-            med.notes
-        ];
-        values.forEach((val, i) => {
-            doc.text(val.toString(), 14 + i * 38, yPos);
-        });
-        yPos += 7;
-
-        // add new page if exceeding page height
-        if (yPos > 280) {
-            doc.addPage();
-            yPos = 20;
-        }
-    });
-
-    doc.save("Medicine_Inventory.pdf");
 });
