@@ -353,3 +353,35 @@ tableBody.addEventListener('click', async (e) => {
         currentEditId = id;
     }
 });
+
+// default dose times (24-hour format)
+const DOSAGE_TIMES = {
+    'once-a-day': ['09:00'],
+    'twice-a-day': ['09:00', '19:00'],
+    'three-times-a-day': ['09:00', '13:00', '19:00']
+};
+let notificationPermission = 'default';
+
+// function to request notification permission
+function requestNotificationPermission() {
+    if ('Notification' in window) {
+        Notification.requestPermission().then(permission => {
+            notificationPermission = permission;
+            if (permission === 'granted') {
+                console.log("Notification permission granted.");
+            } else if (permission === 'denied') {
+                console.log("Notification permission denied.");
+            }
+        });
+    }
+}
+
+// function to show the actual notification
+function showDoseNotification(medicationName, doseNumber) {
+    if (notificationPermission === 'granted') {
+        new Notification("Medication Reminder", {
+            body: `It's time for your ${medicationName} dose #${doseNumber}!`,
+            icon: '/favicon.ico'
+        });
+    }
+}
