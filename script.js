@@ -356,7 +356,7 @@ tableBody.addEventListener('click', async (e) => {
 
 // default dose times (24-hour format)
 const DOSAGE_TIMES = {
-    'once-a-day': ['09:00'],
+    'once-a-day': ['13:00'],
     'twice-a-day': ['09:00', '19:00'],
     'three-times-a-day': ['09:00', '13:00', '19:00']
 };
@@ -385,3 +385,42 @@ function showDoseNotification(medicationName, doseNumber) {
         });
     }
 }
+
+const NOTIFICATION_INTERVAL_MS = 60000; // check every 60 seconds (1 minute)
+
+// function to schedule and check for reminders
+function scheduleReminders() {
+    const now = new Date();
+    // format the current time as "HH:MM" (e.g., "09:00")
+    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    
+    // only proceed if permission is granted
+    if (notificationPermission !== 'granted') return;
+
+    // use a variable that should hold the current list of meds
+    const activeMeds = typeof allMedicines !== 'undefined' ? allMedicines : [];
+
+    activeMeds.forEach(med => {
+        const times = DOSAGE_TIMES[med.frequency];
+        
+        if (times) {
+            times.forEach((dueTime, index) => {
+                // check if the current time matches the scheduled time
+                if (currentTime === dueTime) {
+                    // Ccheck if the corresponding checkbox is already checked
+                    const doseId = `${med.id}-${index + 1}`;
+                    // checkbox must be fetched from the main document
+                    const checkbox = document.getElementById(`schedule-med-${doseId}`);
+                    
+                    // only show reminder if the dose has NOT been taken yet
+                    if (checkbox && !checkbox.checked) {
+                        showDoseNotification(med.name, index + 1);
+                    }
+                }
+            });
+        }
+    });
+}
+
+// start checking for reminders every minute
+setInterval(scheduleReminders, NOTIFICATION_INTERVAL_MS);
