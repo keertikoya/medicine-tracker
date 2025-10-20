@@ -191,6 +191,10 @@ async function fetchMedicines() {
 
 // initialize the app by fetching all data and rendering the table
 async function initializeApp() {
+    // request permission as soon as the app loads
+    requestNotificationPermission(); 
+
+    // continue with existing data loading
     allMedicines = await fetchMedicines();
     renderTable(allMedicines);
     renderDailySchedule(allMedicines);
