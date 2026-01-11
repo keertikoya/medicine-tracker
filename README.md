@@ -1,8 +1,10 @@
-# Medicine Tracker 💊
+# 💊 Medicine Tracker
 
 A full-stack web application built to simplify **medication management and inventory tracking**. This tracker helps users stay organized by keeping all their prescriptions, over-the-counter medications, and supplements in one place.
 
 I was inspired to create this after getting sick while traveling in India in the summer of 2025, when I was prescribed numerous unfamiliar pills, syrups, and tablets. Managing them all quickly became overwhelming, so I designed this tracker to help myself—and others in similar situations—stay organized, track doses, and avoid expired medications.
+
+<img width="1287" height="768" alt="Screenshot 2026-01-10 at 5 22 53 PM" src="https://github.com/user-attachments/assets/4caf2e6d-f2cd-4c31-851b-f9cb3e3a17c3" />
 
 ---
 
